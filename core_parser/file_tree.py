@@ -29,5 +29,5 @@ def get_code_files(repo_dir: str) -> list[str]:
                 full_path = os.path.join(root, file)
                 code_files.append(full_path)
 
-    print(f"📂 Found {len(code_files)} code files")
+    print(f"[*] Found {len(code_files)} code files")
     return code_files

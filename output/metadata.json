@@ -1,0 +1,3665 @@
+{
+  "repo_url": "https://github.com/pallets/flask",
+  "default_branch": "main",
+  "files": [
+    {
+      "path": "docs\\conf.py",
+      "language": "py",
+      "imports": [
+        "import packaging.version",
+        "from pallets_sphinx_themes import get_version",
+        "from pallets_sphinx_themes import ProjectLink"
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "github_link",
+          "line_start": 71,
+          "line_end": 96
+        },
+        {
+          "name": "setup",
+          "line_start": 99,
+          "line_end": 100
+        }
+      ],
+      "routes": []
+    },
+    {
+      "path": "examples\\celery\\make_celery.py",
+      "language": "py",
+      "imports": [
+        "from task_app import create_app"
+      ],
+      "classes": [],
+      "functions": [],
+      "routes": []
+    },
+    {
+      "path": "examples\\celery\\src\\task_app\\tasks.py",
+      "language": "py",
+      "imports": [
+        "import time",
+        "from celery import shared_task",
+        "from celery import Task"
+      ],
+      "classes": [],
+      "functions": [],
+      "routes": []
+    },
+    {
+      "path": "examples\\celery\\src\\task_app\\views.py",
+      "language": "py",
+      "imports": [
+        "from celery.result import AsyncResult",
+        "from flask import Blueprint",
+        "from flask import request",
+        "from . import tasks"
+      ],
+      "classes": [],
+      "functions": [],
+      "routes": []
+    },
+    {
+      "path": "examples\\celery\\src\\task_app\\__init__.py",
+      "language": "py",
+      "imports": [
+        "from celery import Celery",
+        "from celery import Task",
+        "from flask import Flask",
+        "from flask import render_template"
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "create_app",
+          "line_start": 6,
+          "line_end": 25
+        },
+        {
+          "name": "celery_init_app",
+          "line_start": 28,
+          "line_end": 38
+        }
+      ],
+      "routes": []
+    },
+    {
+      "path": "examples\\javascript\\js_example\\views.py",
+      "language": "py",
+      "imports": [
+        "from flask import jsonify",
+        "from flask import render_template",
+        "from flask import request",
+        "from . import app"
+      ],
+      "classes": [],
+      "functions": [],
+      "routes": []
+    },
+    {
+      "path": "examples\\javascript\\js_example\\__init__.py",
+      "language": "py",
+      "imports": [
+        "from flask import Flask",
+        "from js_example import views"
+      ],
+      "classes": [],
+      "functions": [],
+      "routes": []
+    },
+    {
+      "path": "examples\\javascript\\tests\\conftest.py",
+      "language": "py",
+      "imports": [
+        "import pytest",
+        "from js_example import app"
+      ],
+      "classes": [],
+      "functions": [],
+      "routes": []
+    },
+    {
+      "path": "examples\\javascript\\tests\\test_js_example.py",
+      "language": "py",
+      "imports": [
+        "import pytest",
+        "from flask import template_rendered"
+      ],
+      "classes": [],
+      "functions": [],
+      "routes": []
+    },
+    {
+      "path": "examples\\tutorial\\flaskr\\auth.py",
+      "language": "py",
+      "imports": [
+        "import functools",
+        "from flask import Blueprint",
+        "from flask import flash",
+        "from flask import g",
+        "from flask import redirect",
+        "from flask import render_template",
+        "from flask import request",
+        "from flask import session",
+        "from flask import url_for",
+        "from werkzeug.security import check_password_hash",
+        "from werkzeug.security import generate_password_hash",
+        "from .db import get_db"
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "login_required",
+          "line_start": 18,
+          "line_end": 28
+        }
+      ],
+      "routes": []
+    },
+    {
+      "path": "examples\\tutorial\\flaskr\\blog.py",
+      "language": "py",
+      "imports": [
+        "from flask import Blueprint",
+        "from flask import flash",
+        "from flask import g",
+        "from flask import redirect",
+        "from flask import render_template",
+        "from flask import request",
+        "from flask import url_for",
+        "from werkzeug.exceptions import abort",
+        "from .auth import login_required",
+        "from .db import get_db"
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "get_post",
+          "line_start": 27,
+          "line_end": 56
+        }
+      ],
+      "routes": []
+    },
+    {
+      "path": "examples\\tutorial\\flaskr\\db.py",
+      "language": "py",
+      "imports": [
+        "import sqlite3",
+        "from datetime import datetime",
+        "import click",
+        "from flask import current_app",
+        "from flask import g"
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "get_db",
+          "line_start": 8,
+          "line_end": 19
+        },
+        {
+          "name": "close_db",
+          "line_start": 22,
+          "line_end": 29
+        },
+        {
+          "name": "init_db",
+          "line_start": 32,
+          "line_end": 37
+        },
+        {
+          "name": "init_app",
+          "line_start": 50,
+          "line_end": 55
+        }
+      ],
+      "routes": []
+    },
+    {
+      "path": "examples\\tutorial\\flaskr\\__init__.py",
+      "language": "py",
+      "imports": [
+        "import os",
+        "from flask import Flask"
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "create_app",
+          "line_start": 5,
+          "line_end": 47
+        }
+      ],
+      "routes": []
+    },
+    {
+      "path": "examples\\tutorial\\tests\\conftest.py",
+      "language": "py",
+      "imports": [
+        "import os",
+        "import tempfile",
+        "import pytest",
+        "from flaskr import create_app",
+        "from flaskr.db import get_db",
+        "from flaskr.db import init_db"
+      ],
+      "classes": [
+        {
+          "name": "AuthActions",
+          "methods": []
+        }
+      ],
+      "functions": [],
+      "routes": []
+    },
+    {
+      "path": "examples\\tutorial\\tests\\test_auth.py",
+      "language": "py",
+      "imports": [
+        "import pytest",
+        "from flask import g",
+        "from flask import session",
+        "from flaskr.db import get_db"
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "test_register",
+          "line_start": 7,
+          "line_end": 20
+        },
+        {
+          "name": "test_login",
+          "line_start": 38,
+          "line_end": 51
+        },
+        {
+          "name": "test_logout",
+          "line_start": 63,
+          "line_end": 68
+        }
+      ],
+      "routes": []
+    },
+    {
+      "path": "examples\\tutorial\\tests\\test_blog.py",
+      "language": "py",
+      "imports": [
+        "import pytest",
+        "from flaskr.db import get_db"
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "test_index",
+          "line_start": 5,
+          "line_end": 15
+        },
+        {
+          "name": "test_author_required",
+          "line_start": 24,
+          "line_end": 36
+        },
+        {
+          "name": "test_create",
+          "line_start": 45,
+          "line_end": 53
+        },
+        {
+          "name": "test_update",
+          "line_start": 56,
+          "line_end": 64
+        },
+        {
+          "name": "test_delete",
+          "line_start": 74,
+          "line_end": 82
+        }
+      ],
+      "routes": []
+    },
+    {
+      "path": "examples\\tutorial\\tests\\test_db.py",
+      "language": "py",
+      "imports": [
+        "import sqlite3",
+        "import pytest",
+        "from flaskr.db import get_db"
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "test_get_close_db",
+          "line_start": 7,
+          "line_end": 15
+        },
+        {
+          "name": "test_init_db_command",
+          "line_start": 18,
+          "line_end": 28
+        }
+      ],
+      "routes": []
+    },
+    {
+      "path": "examples\\tutorial\\tests\\test_factory.py",
+      "language": "py",
+      "imports": [
+        "from flaskr import create_app"
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "test_config",
+          "line_start": 3,
+          "line_end": 6
+        },
+        {
+          "name": "test_hello",
+          "line_start": 9,
+          "line_end": 11
+        }
+      ],
+      "routes": []
+    },
+    {
+      "path": "src\\flask\\app.py",
+      "language": "py",
+      "imports": [
+        "import collections.abc as cabc",
+        "import inspect",
+        "import os",
+        "import sys",
+        "import typing as t",
+        "import weakref",
+        "from datetime import timedelta",
+        "from functools import update_wrapper",
+        "from inspect import iscoroutinefunction",
+        "from itertools import chain",
+        "from types import TracebackType",
+        "from urllib.parse import quote as _url_quote",
+        "import click",
+        "from werkzeug.datastructures import Headers",
+        "from werkzeug.datastructures import ImmutableDict",
+        "from werkzeug.exceptions import BadRequestKeyError",
+        "from werkzeug.exceptions import HTTPException",
+        "from werkzeug.exceptions import InternalServerError",
+        "from werkzeug.routing import BuildError",
+        "from werkzeug.routing import MapAdapter",
+        "from werkzeug.routing import RequestRedirect",
+        "from werkzeug.routing import RoutingException",
+        "from werkzeug.routing import Rule",
+        "from werkzeug.serving import is_running_from_reloader",
+        "from werkzeug.wrappers import Response as BaseResponse",
+        "from werkzeug.wsgi import get_host",
+        "from . import cli",
+        "from . import typing as ft",
+        "from .ctx import AppContext",
+        "from .globals import _cv_app",
+        "from .globals import app_ctx",
+        "from .globals import g",
+        "from .globals import request",
+        "from .globals import session",
+        "from .helpers import _CollectErrors",
+        "from .helpers import get_debug_flag",
+        "from .helpers import get_flashed_messages",
+        "from .helpers import get_load_dotenv",
+        "from .helpers import send_from_directory",
+        "from .sansio.app import App",
+        "from .sessions import SecureCookieSessionInterface",
+        "from .sessions import SessionInterface",
+        "from .signals import appcontext_tearing_down",
+        "from .signals import got_request_exception",
+        "from .signals import request_finished",
+        "from .signals import request_started",
+        "from .signals import request_tearing_down",
+        "from .templating import Environment",
+        "from .wrappers import Request",
+        "from .wrappers import Response"
+      ],
+      "classes": [
+        {
+          "name": "Flask",
+          "methods": []
+        }
+      ],
+      "functions": [
+        {
+          "name": "_make_timedelta",
+          "line_start": 72,
+          "line_end": 76
+        },
+        {
+          "name": "remove_ctx",
+          "line_start": 84,
+          "line_end": 91
+        },
+        {
+          "name": "add_ctx",
+          "line_start": 96,
+          "line_end": 105
+        }
+      ],
+      "routes": []
+    },
+    {
+      "path": "src\\flask\\blueprints.py",
+      "language": "py",
+      "imports": [
+        "import os",
+        "import typing as t",
+        "from datetime import timedelta",
+        "from .cli import AppGroup",
+        "from .globals import current_app",
+        "from .helpers import send_from_directory",
+        "from .sansio.blueprints import Blueprint as SansioBlueprint",
+        "from .sansio.blueprints import BlueprintSetupState as BlueprintSetupState",
+        "from .sansio.scaffold import _sentinel"
+      ],
+      "classes": [
+        {
+          "name": "Blueprint",
+          "methods": []
+        }
+      ],
+      "functions": [],
+      "routes": []
+    },
+    {
+      "path": "src\\flask\\cli.py",
+      "language": "py",
+      "imports": [
+        "import ast",
+        "import collections.abc as cabc",
+        "import importlib.metadata",
+        "import inspect",
+        "import os",
+        "import platform",
+        "import re",
+        "import sys",
+        "import traceback",
+        "import typing as t",
+        "from functools import update_wrapper",
+        "from operator import itemgetter",
+        "from types import ModuleType",
+        "import click",
+        "from click.core import ParameterSource",
+        "from werkzeug import run_simple",
+        "from werkzeug.serving import is_running_from_reloader",
+        "from werkzeug.utils import import_string",
+        "from .globals import current_app",
+        "from .helpers import get_debug_flag",
+        "from .helpers import get_load_dotenv"
+      ],
+      "classes": [
+        {
+          "name": "NoAppException",
+          "methods": []
+        },
+        {
+          "name": "ScriptInfo",
+          "methods": []
+        },
+        {
+          "name": "AppGroup",
+          "methods": []
+        },
+        {
+          "name": "FlaskGroup",
+          "methods": []
+        },
+        {
+          "name": "CertParamType",
+          "methods": []
+        },
+        {
+          "name": "SeparatedPathType",
+          "methods": []
+        }
+      ],
+      "functions": [
+        {
+          "name": "find_best_app",
+          "line_start": 40,
+          "line_end": 90
+        },
+        {
+          "name": "_called_with_wrong_args",
+          "line_start": 93,
+          "line_end": 116
+        },
+        {
+          "name": "find_app_by_string",
+          "line_start": 119,
+          "line_end": 196
+        },
+        {
+          "name": "prepare_import",
+          "line_start": 199,
+          "line_end": 225
+        },
+        {
+          "name": "locate_app",
+          "line_start": 240,
+          "line_end": 263
+        },
+        {
+          "name": "get_version",
+          "line_start": 266,
+          "line_end": 279
+        },
+        {
+          "name": "with_appcontext",
+          "line_start": 379,
+          "line_end": 401
+        },
+        {
+          "name": "_set_app",
+          "line_start": 439,
+          "line_end": 445
+        },
+        {
+          "name": "_set_debug",
+          "line_start": 467,
+          "line_end": 481
+        },
+        {
+          "name": "_env_file_callback",
+          "line_start": 492,
+          "line_end": 511
+        },
+        {
+          "name": "_path_is_ancestor",
+          "line_start": 690,
+          "line_end": 694
+        },
+        {
+          "name": "load_dotenv",
+          "line_start": 697,
+          "line_end": 762
+        },
+        {
+          "name": "show_server_banner",
+          "line_start": 765,
+          "line_end": 776
+        },
+        {
+          "name": "_validate_key",
+          "line_start": 827,
+          "line_end": 863
+        },
+        {
+          "name": "main",
+          "line_start": 1121,
+          "line_end": 1122
+        }
+      ],
+      "routes": []
+    },
+    {
+      "path": "src\\flask\\config.py",
+      "language": "py",
+      "imports": [
+        "import errno",
+        "import json",
+        "import os",
+        "import types",
+        "import typing as t",
+        "from werkzeug.utils import import_string"
+      ],
+      "classes": [
+        {
+          "name": "ConfigAttribute",
+          "methods": []
+        },
+        {
+          "name": "Config",
+          "methods": []
+        }
+      ],
+      "functions": [],
+      "routes": []
+    },
+    {
+      "path": "src\\flask\\ctx.py",
+      "language": "py",
+      "imports": [
+        "import contextvars",
+        "import typing as t",
+        "from functools import update_wrapper",
+        "from types import TracebackType",
+        "from werkzeug.exceptions import HTTPException",
+        "from werkzeug.routing import MapAdapter",
+        "from . import typing as ft",
+        "from .globals import _cv_app",
+        "from .helpers import _CollectErrors",
+        "from .signals import appcontext_popped",
+        "from .signals import appcontext_pushed"
+      ],
+      "classes": [
+        {
+          "name": "_AppCtxGlobals",
+          "methods": []
+        },
+        {
+          "name": "AppContext",
+          "methods": []
+        }
+      ],
+      "functions": [
+        {
+          "name": "after_this_request",
+          "line_start": 117,
+          "line_end": 147
+        },
+        {
+          "name": "copy_current_request_context",
+          "line_start": 153,
+          "line_end": 205
+        },
+        {
+          "name": "has_request_context",
+          "line_start": 208,
+          "line_end": 231
+        },
+        {
+          "name": "has_app_context",
+          "line_start": 234,
+          "line_end": 256
+        },
+        {
+          "name": "__getattr__",
+          "line_start": 527,
+          "line_end": 539
+        }
+      ],
+      "routes": []
+    },
+    {
+      "path": "src\\flask\\debughelpers.py",
+      "language": "py",
+      "imports": [
+        "import typing as t",
+        "from jinja2.loaders import BaseLoader",
+        "from werkzeug.routing import RequestRedirect",
+        "from .blueprints import Blueprint",
+        "from .globals import _cv_app",
+        "from .sansio.app import App"
+      ],
+      "classes": [
+        {
+          "name": "UnexpectedUnicodeError",
+          "methods": []
+        },
+        {
+          "name": "DebugFilesKeyError",
+          "methods": []
+        },
+        {
+          "name": "FormDataRoutingRedirect",
+          "methods": []
+        }
+      ],
+      "functions": [
+        {
+          "name": "attach_enctype_error_multidict",
+          "line_start": 80,
+          "line_end": 103
+        },
+        {
+          "name": "_dump_loader_info",
+          "line_start": 106,
+          "line_end": 120
+        },
+        {
+          "name": "explain_template_loading_attempts",
+          "line_start": 123,
+          "line_end": 178
+        }
+      ],
+      "routes": []
+    },
+    {
+      "path": "src\\flask\\globals.py",
+      "language": "py",
+      "imports": [
+        "import typing as t",
+        "from contextvars import ContextVar",
+        "from werkzeug.local import LocalProxy"
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "__getattr__",
+          "line_start": 64,
+          "line_end": 76
+        }
+      ],
+      "routes": []
+    },
+    {
+      "path": "src\\flask\\helpers.py",
+      "language": "py",
+      "imports": [
+        "import importlib.util",
+        "import os",
+        "import sys",
+        "import typing as t",
+        "from datetime import datetime",
+        "from functools import cache",
+        "from functools import update_wrapper",
+        "from types import TracebackType",
+        "import werkzeug.utils",
+        "from werkzeug.exceptions import abort as _wz_abort",
+        "from werkzeug.utils import redirect as _wz_redirect",
+        "from werkzeug.wrappers import Response as BaseResponse",
+        "from .globals import _cv_app",
+        "from .globals import app_ctx",
+        "from .globals import current_app",
+        "from .globals import request",
+        "from .globals import session",
+        "from .signals import message_flashed"
+      ],
+      "classes": [
+        {
+          "name": "_CollectErrors",
+          "methods": []
+        }
+      ],
+      "functions": [
+        {
+          "name": "get_debug_flag",
+          "line_start": 27,
+          "line_end": 32
+        },
+        {
+          "name": "get_load_dotenv",
+          "line_start": 35,
+          "line_end": 47
+        },
+        {
+          "name": "stream_with_context",
+          "line_start": 62,
+          "line_end": 147
+        },
+        {
+          "name": "make_response",
+          "line_start": 150,
+          "line_end": 196
+        },
+        {
+          "name": "url_for",
+          "line_start": 199,
+          "line_end": 250
+        },
+        {
+          "name": "redirect",
+          "line_start": 253,
+          "line_end": 277
+        },
+        {
+          "name": "abort",
+          "line_start": 280,
+          "line_end": 300
+        },
+        {
+          "name": "get_template_attribute",
+          "line_start": 303,
+          "line_end": 322
+        },
+        {
+          "name": "flash",
+          "line_start": 325,
+          "line_end": 356
+        },
+        {
+          "name": "get_flashed_messages",
+          "line_start": 359,
+          "line_end": 398
+        },
+        {
+          "name": "_prepare_send_file_kwargs",
+          "line_start": 401,
+          "line_end": 413
+        },
+        {
+          "name": "send_file",
+          "line_start": 416,
+          "line_end": 539
+        },
+        {
+          "name": "send_from_directory",
+          "line_start": 542,
+          "line_end": 583
+        },
+        {
+          "name": "get_root_path",
+          "line_start": 586,
+          "line_end": 640
+        }
+      ],
+      "routes": []
+    },
+    {
+      "path": "src\\flask\\logging.py",
+      "language": "py",
+      "imports": [
+        "import logging",
+        "import sys",
+        "import typing as t",
+        "from werkzeug.local import LocalProxy",
+        "from .globals import request"
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "has_level_handler",
+          "line_start": 30,
+          "line_end": 46
+        },
+        {
+          "name": "create_logger",
+          "line_start": 57,
+          "line_end": 78
+        }
+      ],
+      "routes": []
+    },
+    {
+      "path": "src\\flask\\sessions.py",
+      "language": "py",
+      "imports": [
+        "import collections.abc as c",
+        "import hashlib",
+        "import typing as t",
+        "from collections.abc import MutableMapping",
+        "from datetime import datetime",
+        "from datetime import timezone",
+        "from itsdangerous import BadSignature",
+        "from itsdangerous import URLSafeTimedSerializer",
+        "from werkzeug.datastructures import CallbackDict",
+        "from .json.tag import TaggedJSONSerializer"
+      ],
+      "classes": [
+        {
+          "name": "SessionMixin",
+          "methods": []
+        },
+        {
+          "name": "SecureCookieSession",
+          "methods": []
+        },
+        {
+          "name": "NullSession",
+          "methods": []
+        },
+        {
+          "name": "SessionInterface",
+          "methods": []
+        },
+        {
+          "name": "SecureCookieSessionInterface",
+          "methods": []
+        }
+      ],
+      "functions": [
+        {
+          "name": "_lazy_sha1",
+          "line_start": 275,
+          "line_end": 280
+        }
+      ],
+      "routes": []
+    },
+    {
+      "path": "src\\flask\\signals.py",
+      "language": "py",
+      "imports": [
+        "from blinker import Namespace"
+      ],
+      "classes": [],
+      "functions": [],
+      "routes": []
+    },
+    {
+      "path": "src\\flask\\templating.py",
+      "language": "py",
+      "imports": [
+        "import typing as t",
+        "from jinja2 import BaseLoader",
+        "from jinja2 import Environment as BaseEnvironment",
+        "from jinja2 import Template",
+        "from jinja2 import TemplateNotFound",
+        "from .ctx import AppContext",
+        "from .globals import app_ctx",
+        "from .helpers import stream_with_context",
+        "from .signals import before_render_template",
+        "from .signals import template_rendered"
+      ],
+      "classes": [
+        {
+          "name": "Environment",
+          "methods": []
+        },
+        {
+          "name": "DispatchingJinjaLoader",
+          "methods": []
+        }
+      ],
+      "functions": [
+        {
+          "name": "_default_template_ctx_processor",
+          "line_start": 20,
+          "line_end": 32
+        },
+        {
+          "name": "_render",
+          "line_start": 122,
+          "line_end": 132
+        },
+        {
+          "name": "render_template",
+          "line_start": 135,
+          "line_end": 147
+        },
+        {
+          "name": "render_template_string",
+          "line_start": 150,
+          "line_end": 159
+        },
+        {
+          "name": "_stream",
+          "line_start": 162,
+          "line_end": 177
+        },
+        {
+          "name": "stream_template",
+          "line_start": 180,
+          "line_end": 196
+        },
+        {
+          "name": "stream_template_string",
+          "line_start": 199,
+          "line_end": 211
+        }
+      ],
+      "routes": []
+    },
+    {
+      "path": "src\\flask\\testing.py",
+      "language": "py",
+      "imports": [
+        "import importlib.metadata",
+        "import typing as t",
+        "from contextlib import contextmanager",
+        "from contextlib import ExitStack",
+        "from copy import copy",
+        "from types import TracebackType",
+        "from urllib.parse import urlsplit",
+        "import werkzeug.test",
+        "from click.testing import CliRunner",
+        "from click.testing import Result",
+        "from werkzeug.test import Client",
+        "from werkzeug.wrappers import Request as BaseRequest",
+        "from .cli import ScriptInfo",
+        "from .sessions import SessionMixin"
+      ],
+      "classes": [
+        {
+          "name": "EnvironBuilder",
+          "methods": []
+        },
+        {
+          "name": "FlaskClient",
+          "methods": []
+        },
+        {
+          "name": "FlaskCliRunner",
+          "methods": []
+        }
+      ],
+      "functions": [
+        {
+          "name": "_get_werkzeug_version",
+          "line_start": 99,
+          "line_end": 105
+        }
+      ],
+      "routes": []
+    },
+    {
+      "path": "src\\flask\\typing.py",
+      "language": "py",
+      "imports": [
+        "import collections.abc as cabc",
+        "import typing as t"
+      ],
+      "classes": [],
+      "functions": [],
+      "routes": []
+    },
+    {
+      "path": "src\\flask\\views.py",
+      "language": "py",
+      "imports": [
+        "import typing as t",
+        "from . import typing as ft",
+        "from .globals import current_app",
+        "from .globals import request"
+      ],
+      "classes": [
+        {
+          "name": "View",
+          "methods": []
+        },
+        {
+          "name": "MethodView",
+          "methods": []
+        }
+      ],
+      "functions": [],
+      "routes": []
+    },
+    {
+      "path": "src\\flask\\wrappers.py",
+      "language": "py",
+      "imports": [
+        "import typing as t",
+        "from werkzeug.exceptions import BadRequest",
+        "from werkzeug.exceptions import HTTPException",
+        "from werkzeug.wrappers import Request as RequestBase",
+        "from werkzeug.wrappers import Response as ResponseBase",
+        "from . import json",
+        "from .globals import current_app",
+        "from .helpers import _split_blueprint_path"
+      ],
+      "classes": [
+        {
+          "name": "Request",
+          "methods": []
+        },
+        {
+          "name": "Response",
+          "methods": []
+        }
+      ],
+      "functions": [],
+      "routes": []
+    },
+    {
+      "path": "src\\flask\\__init__.py",
+      "language": "py",
+      "imports": [
+        "from . import json as json",
+        "from .app import Flask as Flask",
+        "from .blueprints import Blueprint as Blueprint",
+        "from .config import Config as Config",
+        "from .ctx import after_this_request as after_this_request",
+        "from .ctx import copy_current_request_context as copy_current_request_context",
+        "from .ctx import has_app_context as has_app_context",
+        "from .ctx import has_request_context as has_request_context",
+        "from .globals import current_app as current_app",
+        "from .globals import g as g",
+        "from .globals import request as request",
+        "from .globals import session as session",
+        "from .helpers import abort as abort",
+        "from .helpers import flash as flash",
+        "from .helpers import get_flashed_messages as get_flashed_messages",
+        "from .helpers import get_template_attribute as get_template_attribute",
+        "from .helpers import make_response as make_response",
+        "from .helpers import redirect as redirect",
+        "from .helpers import send_file as send_file",
+        "from .helpers import send_from_directory as send_from_directory",
+        "from .helpers import stream_with_context as stream_with_context",
+        "from .helpers import url_for as url_for",
+        "from .json import jsonify as jsonify",
+        "from .signals import appcontext_popped as appcontext_popped",
+        "from .signals import appcontext_pushed as appcontext_pushed",
+        "from .signals import appcontext_tearing_down as appcontext_tearing_down",
+        "from .signals import before_render_template as before_render_template",
+        "from .signals import got_request_exception as got_request_exception",
+        "from .signals import message_flashed as message_flashed",
+        "from .signals import request_finished as request_finished",
+        "from .signals import request_started as request_started",
+        "from .signals import request_tearing_down as request_tearing_down",
+        "from .signals import template_rendered as template_rendered",
+        "from .templating import render_template as render_template",
+        "from .templating import render_template_string as render_template_string",
+        "from .templating import stream_template as stream_template",
+        "from .templating import stream_template_string as stream_template_string",
+        "from .wrappers import Request as Request",
+        "from .wrappers import Response as Response"
+      ],
+      "classes": [],
+      "functions": [],
+      "routes": []
+    },
+    {
+      "path": "src\\flask\\__main__.py",
+      "language": "py",
+      "imports": [
+        "from .cli import main"
+      ],
+      "classes": [],
+      "functions": [],
+      "routes": []
+    },
+    {
+      "path": "src\\flask\\json\\provider.py",
+      "language": "py",
+      "imports": [
+        "import dataclasses",
+        "import decimal",
+        "import json",
+        "import typing as t",
+        "import uuid",
+        "import weakref",
+        "from datetime import date",
+        "from werkzeug.http import http_date"
+      ],
+      "classes": [
+        {
+          "name": "JSONProvider",
+          "methods": []
+        },
+        {
+          "name": "DefaultJSONProvider",
+          "methods": []
+        }
+      ],
+      "functions": [
+        {
+          "name": "_default",
+          "line_start": 107,
+          "line_end": 120
+        }
+      ],
+      "routes": []
+    },
+    {
+      "path": "src\\flask\\json\\tag.py",
+      "language": "py",
+      "imports": [
+        "import typing as t",
+        "from base64 import b64decode",
+        "from base64 import b64encode",
+        "from datetime import datetime",
+        "from uuid import UUID",
+        "from markupsafe import Markup",
+        "from werkzeug.http import http_date",
+        "from werkzeug.http import parse_date",
+        "from ..json import dumps",
+        "from ..json import loads"
+      ],
+      "classes": [
+        {
+          "name": "JSONTag",
+          "methods": []
+        },
+        {
+          "name": "TagDict",
+          "methods": []
+        },
+        {
+          "name": "PassDict",
+          "methods": []
+        },
+        {
+          "name": "TagTuple",
+          "methods": []
+        },
+        {
+          "name": "PassList",
+          "methods": []
+        },
+        {
+          "name": "TagBytes",
+          "methods": []
+        },
+        {
+          "name": "TagMarkup",
+          "methods": []
+        },
+        {
+          "name": "TagUUID",
+          "methods": []
+        },
+        {
+          "name": "TagDateTime",
+          "methods": []
+        },
+        {
+          "name": "TaggedJSONSerializer",
+          "methods": []
+        }
+      ],
+      "functions": [],
+      "routes": []
+    },
+    {
+      "path": "src\\flask\\json\\__init__.py",
+      "language": "py",
+      "imports": [
+        "import json as _json",
+        "import typing as t",
+        "from ..globals import current_app",
+        "from .provider import _default"
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "dumps",
+          "line_start": 12,
+          "line_end": 43
+        },
+        {
+          "name": "dump",
+          "line_start": 46,
+          "line_end": 73
+        },
+        {
+          "name": "loads",
+          "line_start": 76,
+          "line_end": 104
+        },
+        {
+          "name": "load",
+          "line_start": 107,
+          "line_end": 134
+        },
+        {
+          "name": "jsonify",
+          "line_start": 137,
+          "line_end": 169
+        }
+      ],
+      "routes": []
+    },
+    {
+      "path": "src\\flask\\sansio\\app.py",
+      "language": "py",
+      "imports": [
+        "import logging",
+        "import os",
+        "import sys",
+        "import typing as t",
+        "from datetime import timedelta",
+        "from itertools import chain",
+        "from werkzeug.exceptions import Aborter",
+        "from werkzeug.exceptions import BadRequest",
+        "from werkzeug.exceptions import BadRequestKeyError",
+        "from werkzeug.routing import BuildError",
+        "from werkzeug.routing import Map",
+        "from werkzeug.routing import Rule",
+        "from werkzeug.sansio.response import Response",
+        "from werkzeug.utils import cached_property",
+        "from werkzeug.utils import redirect as _wz_redirect",
+        "from .. import typing as ft",
+        "from ..config import Config",
+        "from ..config import ConfigAttribute",
+        "from ..ctx import _AppCtxGlobals",
+        "from ..helpers import _split_blueprint_path",
+        "from ..helpers import get_debug_flag",
+        "from ..json.provider import DefaultJSONProvider",
+        "from ..json.provider import JSONProvider",
+        "from ..logging import create_logger",
+        "from ..templating import DispatchingJinjaLoader",
+        "from ..templating import Environment",
+        "from .scaffold import _endpoint_from_view_func",
+        "from .scaffold import find_package",
+        "from .scaffold import Scaffold",
+        "from .scaffold import setupmethod"
+      ],
+      "classes": [
+        {
+          "name": "App",
+          "methods": []
+        }
+      ],
+      "functions": [
+        {
+          "name": "_make_timedelta",
+          "line_start": 51,
+          "line_end": 55
+        }
+      ],
+      "routes": []
+    },
+    {
+      "path": "src\\flask\\sansio\\blueprints.py",
+      "language": "py",
+      "imports": [
+        "import os",
+        "import typing as t",
+        "from collections import defaultdict",
+        "from functools import update_wrapper",
+        "from .. import typing as ft",
+        "from .scaffold import _endpoint_from_view_func",
+        "from .scaffold import _sentinel",
+        "from .scaffold import Scaffold",
+        "from .scaffold import setupmethod"
+      ],
+      "classes": [
+        {
+          "name": "BlueprintSetupState",
+          "methods": []
+        },
+        {
+          "name": "Blueprint",
+          "methods": []
+        }
+      ],
+      "functions": [],
+      "routes": []
+    },
+    {
+      "path": "src\\flask\\sansio\\scaffold.py",
+      "language": "py",
+      "imports": [
+        "import importlib.util",
+        "import os",
+        "import pathlib",
+        "import sys",
+        "import typing as t",
+        "from collections import defaultdict",
+        "from functools import update_wrapper",
+        "from jinja2 import BaseLoader",
+        "from jinja2 import FileSystemLoader",
+        "from werkzeug.exceptions import default_exceptions",
+        "from werkzeug.exceptions import HTTPException",
+        "from werkzeug.utils import cached_property",
+        "from .. import typing as ft",
+        "from ..helpers import get_root_path",
+        "from ..templating import _default_template_ctx_processor"
+      ],
+      "classes": [
+        {
+          "name": "Scaffold",
+          "methods": []
+        }
+      ],
+      "functions": [
+        {
+          "name": "setupmethod",
+          "line_start": 41,
+          "line_end": 48
+        },
+        {
+          "name": "_endpoint_from_view_func",
+          "line_start": 700,
+          "line_end": 705
+        },
+        {
+          "name": "_find_package_path",
+          "line_start": 708,
+          "line_end": 750
+        },
+        {
+          "name": "find_package",
+          "line_start": 753,
+          "line_end": 791
+        }
+      ],
+      "routes": []
+    },
+    {
+      "path": "tests\\conftest.py",
+      "language": "py",
+      "imports": [
+        "import os",
+        "import sys",
+        "import pytest",
+        "from _pytest import monkeypatch",
+        "from flask import Flask",
+        "from flask.globals import app_ctx as _app_ctx"
+      ],
+      "classes": [],
+      "functions": [],
+      "routes": []
+    },
+    {
+      "path": "tests\\test_appctx.py",
+      "language": "py",
+      "imports": [
+        "import sys",
+        "import pytest",
+        "import flask",
+        "from flask.globals import app_ctx",
+        "from flask.testing import FlaskClient"
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "test_basic_url_generation",
+          "line_start": 9,
+          "line_end": 19
+        },
+        {
+          "name": "test_url_generation_requires_server_name",
+          "line_start": 22,
+          "line_end": 25
+        },
+        {
+          "name": "test_url_generation_without_context_fails",
+          "line_start": 28,
+          "line_end": 30
+        },
+        {
+          "name": "test_request_context_means_app_context",
+          "line_start": 33,
+          "line_end": 36
+        },
+        {
+          "name": "test_app_context_provides_current_app",
+          "line_start": 39,
+          "line_end": 42
+        },
+        {
+          "name": "test_app_tearing_down",
+          "line_start": 45,
+          "line_end": 55
+        },
+        {
+          "name": "test_app_tearing_down_with_previous_exception",
+          "line_start": 58,
+          "line_end": 73
+        },
+        {
+          "name": "test_app_tearing_down_with_handled_exception_by_except_block",
+          "line_start": 76,
+          "line_end": 89
+        },
+        {
+          "name": "test_app_tearing_down_with_handled_exception_by_app_handler",
+          "line_start": 92,
+          "line_end": 112
+        },
+        {
+          "name": "test_app_tearing_down_with_unhandled_exception",
+          "line_start": 115,
+          "line_end": 135
+        },
+        {
+          "name": "test_app_ctx_globals_methods",
+          "line_start": 138,
+          "line_end": 158
+        },
+        {
+          "name": "test_custom_app_ctx_globals_class",
+          "line_start": 161,
+          "line_end": 168
+        },
+        {
+          "name": "test_context_refcounts",
+          "line_start": 171,
+          "line_end": 193
+        },
+        {
+          "name": "test_clean_pop",
+          "line_start": 196,
+          "line_end": 212
+        },
+        {
+          "name": "test_robust_teardown",
+          "line_start": 215,
+          "line_end": 264
+        }
+      ],
+      "routes": []
+    },
+    {
+      "path": "tests\\test_async.py",
+      "language": "py",
+      "imports": [
+        "import asyncio",
+        "import pytest",
+        "from flask import Blueprint",
+        "from flask import Flask",
+        "from flask import request",
+        "from flask.views import MethodView",
+        "from flask.views import View"
+      ],
+      "classes": [
+        {
+          "name": "AppError",
+          "methods": []
+        },
+        {
+          "name": "BlueprintError",
+          "methods": []
+        },
+        {
+          "name": "AsyncView",
+          "methods": []
+        },
+        {
+          "name": "AsyncMethodView",
+          "methods": []
+        }
+      ],
+      "functions": [
+        {
+          "name": "test_async_before_after_request",
+          "line_start": 96,
+          "line_end": 144
+        }
+      ],
+      "routes": []
+    },
+    {
+      "path": "tests\\test_basic.py",
+      "language": "py",
+      "imports": [
+        "import gc",
+        "import importlib.metadata",
+        "import re",
+        "import typing as t",
+        "import uuid",
+        "import weakref",
+        "from contextlib import nullcontext",
+        "from datetime import datetime",
+        "from datetime import timezone",
+        "from platform import python_implementation",
+        "import pytest",
+        "import werkzeug.serving",
+        "from markupsafe import Markup",
+        "from werkzeug.exceptions import BadRequest",
+        "from werkzeug.exceptions import Forbidden",
+        "from werkzeug.exceptions import NotFound",
+        "from werkzeug.http import parse_date",
+        "from werkzeug.routing import BuildError",
+        "from werkzeug.routing import RequestRedirect",
+        "import flask",
+        "from flask.globals import app_ctx",
+        "from flask.testing import FlaskClient"
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "test_options_work",
+          "line_start": 31,
+          "line_end": 38
+        },
+        {
+          "name": "test_options_on_multiple_rules",
+          "line_start": 41,
+          "line_end": 51
+        },
+        {
+          "name": "test_method_route_no_methods",
+          "line_start": 66,
+          "line_end": 68
+        },
+        {
+          "name": "test_provide_automatic_options_attr_disable",
+          "line_start": 71,
+          "line_end": 82
+        },
+        {
+          "name": "test_provide_automatic_options_attr_enable",
+          "line_start": 85,
+          "line_end": 99
+        },
+        {
+          "name": "test_provide_automatic_options_arg_disable",
+          "line_start": 102,
+          "line_end": 112
+        },
+        {
+          "name": "test_provide_automatic_options_method_disable",
+          "line_start": 115,
+          "line_end": 125
+        },
+        {
+          "name": "test_request_dispatching",
+          "line_start": 128,
+          "line_end": 148
+        },
+        {
+          "name": "test_disallow_string_for_allowed_methods",
+          "line_start": 151,
+          "line_end": 153
+        },
+        {
+          "name": "test_url_mapping",
+          "line_start": 156,
+          "line_end": 189
+        },
+        {
+          "name": "test_werkzeug_routing",
+          "line_start": 192,
+          "line_end": 210
+        },
+        {
+          "name": "test_endpoint_decorator",
+          "line_start": 213,
+          "line_end": 230
+        },
+        {
+          "name": "test_session_accessed",
+          "line_start": 233,
+          "line_end": 272
+        },
+        {
+          "name": "test_session_path",
+          "line_start": 275,
+          "line_end": 284
+        },
+        {
+          "name": "test_session_using_application_root",
+          "line_start": 287,
+          "line_end": 306
+        },
+        {
+          "name": "test_session_using_session_settings",
+          "line_start": 309,
+          "line_end": 349
+        },
+        {
+          "name": "test_session_using_samesite_attribute",
+          "line_start": 352,
+          "line_end": 376
+        },
+        {
+          "name": "test_missing_session",
+          "line_start": 379,
+          "line_end": 389
+        },
+        {
+          "name": "test_session_secret_key_fallbacks",
+          "line_start": 392,
+          "line_end": 417
+        },
+        {
+          "name": "test_session_expiration",
+          "line_start": 420,
+          "line_end": 449
+        },
+        {
+          "name": "test_session_stored_last",
+          "line_start": 452,
+          "line_end": 463
+        },
+        {
+          "name": "test_session_special_types",
+          "line_start": 466,
+          "line_end": 494
+        },
+        {
+          "name": "test_session_cookie_setting",
+          "line_start": 497,
+          "line_end": 535
+        },
+        {
+          "name": "test_session_vary_cookie",
+          "line_start": 538,
+          "line_end": 596
+        },
+        {
+          "name": "test_session_refresh_vary",
+          "line_start": 599,
+          "line_end": 613
+        },
+        {
+          "name": "test_flashes",
+          "line_start": 616,
+          "line_end": 622
+        },
+        {
+          "name": "test_extended_flashing",
+          "line_start": 625,
+          "line_end": 703
+        },
+        {
+          "name": "test_request_processing",
+          "line_start": 706,
+          "line_end": 728
+        },
+        {
+          "name": "test_request_preprocessing_early_return",
+          "line_start": 731,
+          "line_end": 755
+        },
+        {
+          "name": "test_after_request_processing",
+          "line_start": 758,
+          "line_end": 770
+        },
+        {
+          "name": "test_teardown_request_handler",
+          "line_start": 773,
+          "line_end": 788
+        },
+        {
+          "name": "test_teardown_request_handler_debug_mode",
+          "line_start": 791,
+          "line_end": 806
+        },
+        {
+          "name": "test_teardown_request_handler_error",
+          "line_start": 809,
+          "line_end": 844
+        },
+        {
+          "name": "test_before_after_request_order",
+          "line_start": 847,
+          "line_end": 882
+        },
+        {
+          "name": "test_error_handling",
+          "line_start": 885,
+          "line_end": 920
+        },
+        {
+          "name": "test_error_handling_processing",
+          "line_start": 923,
+          "line_end": 941
+        },
+        {
+          "name": "test_baseexception_error_handling",
+          "line_start": 944,
+          "line_end": 952
+        },
+        {
+          "name": "test_before_request_and_routing_errors",
+          "line_start": 955,
+          "line_end": 966
+        },
+        {
+          "name": "test_user_error_handling",
+          "line_start": 969,
+          "line_end": 982
+        },
+        {
+          "name": "test_http_error_subclass_handling",
+          "line_start": 985,
+          "line_end": 1014
+        },
+        {
+          "name": "test_errorhandler_precedence",
+          "line_start": 1017,
+          "line_end": 1047
+        },
+        {
+          "name": "test_trapping_of_all_http_exceptions",
+          "line_start": 1085,
+          "line_end": 1093
+        },
+        {
+          "name": "test_error_handler_after_processor_error",
+          "line_start": 1096,
+          "line_end": 1122
+        },
+        {
+          "name": "test_enctype_debug_helper",
+          "line_start": 1125,
+          "line_end": 1137
+        },
+        {
+          "name": "test_response_types",
+          "line_start": 1140,
+          "line_end": 1231
+        },
+        {
+          "name": "test_response_type_errors",
+          "line_start": 1234,
+          "line_end": 1280
+        },
+        {
+          "name": "test_make_response",
+          "line_start": 1283,
+          "line_end": 1302
+        },
+        {
+          "name": "test_make_response_with_response_instance",
+          "line_start": 1305,
+          "line_end": 1323
+        },
+        {
+          "name": "test_jsonify_mimetype",
+          "line_start": 1335,
+          "line_end": 1339
+        },
+        {
+          "name": "test_json_dump_dataclass",
+          "line_start": 1342,
+          "line_end": 1348
+        },
+        {
+          "name": "test_jsonify_args_and_kwargs_check",
+          "line_start": 1351,
+          "line_end": 1354
+        },
+        {
+          "name": "test_url_generation",
+          "line_start": 1357,
+          "line_end": 1366
+        },
+        {
+          "name": "test_build_error_handler",
+          "line_start": 1369,
+          "line_end": 1392
+        },
+        {
+          "name": "test_build_error_handler_reraise",
+          "line_start": 1395,
+          "line_end": 1403
+        },
+        {
+          "name": "test_url_for_passes_special_values_to_build_error_handler",
+          "line_start": 1406,
+          "line_end": 1418
+        },
+        {
+          "name": "test_static_files",
+          "line_start": 1421,
+          "line_end": 1428
+        },
+        {
+          "name": "test_static_url_path",
+          "line_start": 1431,
+          "line_end": 1439
+        },
+        {
+          "name": "test_static_url_path_with_ending_slash",
+          "line_start": 1442,
+          "line_end": 1450
+        },
+        {
+          "name": "test_static_url_empty_path",
+          "line_start": 1453,
+          "line_end": 1457
+        },
+        {
+          "name": "test_static_url_empty_path_default",
+          "line_start": 1460,
+          "line_end": 1464
+        },
+        {
+          "name": "test_static_folder_with_pathlib_path",
+          "line_start": 1467,
+          "line_end": 1473
+        },
+        {
+          "name": "test_static_folder_with_ending_slash",
+          "line_start": 1476,
+          "line_end": 1484
+        },
+        {
+          "name": "test_static_route_with_host_matching",
+          "line_start": 1487,
+          "line_end": 1506
+        },
+        {
+          "name": "test_request_locals",
+          "line_start": 1509,
+          "line_end": 1511
+        },
+        {
+          "name": "test_server_name_subdomain",
+          "line_start": 1561,
+          "line_end": 1603
+        },
+        {
+          "name": "test_url_processors",
+          "line_start": 1641,
+          "line_end": 1667
+        },
+        {
+          "name": "test_inject_blueprint_url_defaults",
+          "line_start": 1670,
+          "line_end": 1691
+        },
+        {
+          "name": "test_nonascii_pathinfo",
+          "line_start": 1694,
+          "line_end": 1700
+        },
+        {
+          "name": "test_no_setup_after_first_request",
+          "line_start": 1703,
+          "line_end": 1715
+        },
+        {
+          "name": "test_routing_redirect_debugging",
+          "line_start": 1718,
+          "line_end": 1735
+        },
+        {
+          "name": "test_route_decorator_custom_endpoint",
+          "line_start": 1738,
+          "line_end": 1760
+        },
+        {
+          "name": "test_get_method_on_g",
+          "line_start": 1763,
+          "line_end": 1768
+        },
+        {
+          "name": "test_g_iteration_protocol",
+          "line_start": 1771,
+          "line_end": 1776
+        },
+        {
+          "name": "test_subdomain_basic_support",
+          "line_start": 1779,
+          "line_end": 1796
+        },
+        {
+          "name": "test_subdomain_matching",
+          "line_start": 1799,
+          "line_end": 1809
+        },
+        {
+          "name": "test_subdomain_matching_with_ports",
+          "line_start": 1812,
+          "line_end": 1822
+        },
+        {
+          "name": "test_multi_route_rules",
+          "line_start": 1849,
+          "line_end": 1858
+        },
+        {
+          "name": "test_multi_route_class_views",
+          "line_start": 1861,
+          "line_end": 1874
+        },
+        {
+          "name": "test_run_defaults",
+          "line_start": 1877,
+          "line_end": 1886
+        },
+        {
+          "name": "test_run_server_port",
+          "line_start": 1889,
+          "line_end": 1899
+        },
+        {
+          "name": "test_max_cookie_size",
+          "line_start": 1926,
+          "line_end": 1953
+        }
+      ],
+      "routes": []
+    },
+    {
+      "path": "tests\\test_blueprints.py",
+      "language": "py",
+      "imports": [
+        "import pytest",
+        "from jinja2 import TemplateNotFound",
+        "from werkzeug.http import parse_cache_control_header",
+        "import flask"
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "test_blueprint_specific_error_handling",
+          "line_start": 7,
+          "line_end": 42
+        },
+        {
+          "name": "test_blueprint_specific_user_error_handling",
+          "line_start": 45,
+          "line_end": 76
+        },
+        {
+          "name": "test_blueprint_app_error_handling",
+          "line_start": 79,
+          "line_end": 100
+        },
+        {
+          "name": "test_blueprint_url_defaults",
+          "line_start": 130,
+          "line_end": 147
+        },
+        {
+          "name": "test_blueprint_url_processors",
+          "line_start": 150,
+          "line_end": 172
+        },
+        {
+          "name": "test_templates_and_static",
+          "line_start": 175,
+          "line_end": 219
+        },
+        {
+          "name": "test_default_static_max_age",
+          "line_start": 222,
+          "line_end": 234
+        },
+        {
+          "name": "test_templates_list",
+          "line_start": 237,
+          "line_end": 241
+        },
+        {
+          "name": "test_dotted_name_not_allowed",
+          "line_start": 244,
+          "line_end": 246
+        },
+        {
+          "name": "test_empty_name_not_allowed",
+          "line_start": 249,
+          "line_end": 251
+        },
+        {
+          "name": "test_dotted_names_from_app",
+          "line_start": 254,
+          "line_end": 268
+        },
+        {
+          "name": "test_empty_url_defaults",
+          "line_start": 271,
+          "line_end": 282
+        },
+        {
+          "name": "test_route_decorator_custom_endpoint",
+          "line_start": 285,
+          "line_end": 314
+        },
+        {
+          "name": "test_route_decorator_custom_endpoint_with_dots",
+          "line_start": 317,
+          "line_end": 332
+        },
+        {
+          "name": "test_endpoint_decorator",
+          "line_start": 335,
+          "line_end": 349
+        },
+        {
+          "name": "test_template_filter",
+          "line_start": 352,
+          "line_end": 386
+        },
+        {
+          "name": "test_add_template_filter",
+          "line_start": 389,
+          "line_end": 399
+        },
+        {
+          "name": "test_template_filter_with_name",
+          "line_start": 402,
+          "line_end": 412
+        },
+        {
+          "name": "test_add_template_filter_with_name",
+          "line_start": 415,
+          "line_end": 425
+        },
+        {
+          "name": "test_template_filter_with_template",
+          "line_start": 428,
+          "line_end": 442
+        },
+        {
+          "name": "test_template_filter_after_route_with_template",
+          "line_start": 445,
+          "line_end": 458
+        },
+        {
+          "name": "test_add_template_filter_with_template",
+          "line_start": 461,
+          "line_end": 475
+        },
+        {
+          "name": "test_template_filter_with_name_and_template",
+          "line_start": 478,
+          "line_end": 492
+        },
+        {
+          "name": "test_add_template_filter_with_name_and_template",
+          "line_start": 495,
+          "line_end": 509
+        },
+        {
+          "name": "test_template_test",
+          "line_start": 512,
+          "line_end": 546
+        },
+        {
+          "name": "test_add_template_test",
+          "line_start": 549,
+          "line_end": 559
+        },
+        {
+          "name": "test_template_test_with_name",
+          "line_start": 562,
+          "line_end": 572
+        },
+        {
+          "name": "test_add_template_test_with_name",
+          "line_start": 575,
+          "line_end": 585
+        },
+        {
+          "name": "test_template_test_with_template",
+          "line_start": 588,
+          "line_end": 602
+        },
+        {
+          "name": "test_template_test_after_route_with_template",
+          "line_start": 605,
+          "line_end": 618
+        },
+        {
+          "name": "test_add_template_test_with_template",
+          "line_start": 621,
+          "line_end": 635
+        },
+        {
+          "name": "test_template_test_with_name_and_template",
+          "line_start": 638,
+          "line_end": 652
+        },
+        {
+          "name": "test_add_template_test_with_name_and_template",
+          "line_start": 655,
+          "line_end": 669
+        },
+        {
+          "name": "test_context_processing",
+          "line_start": 672,
+          "line_end": 710
+        },
+        {
+          "name": "test_template_global",
+          "line_start": 713,
+          "line_end": 764
+        },
+        {
+          "name": "test_request_processing",
+          "line_start": 767,
+          "line_end": 795
+        },
+        {
+          "name": "test_app_request_processing",
+          "line_start": 798,
+          "line_end": 834
+        },
+        {
+          "name": "test_app_url_processors",
+          "line_start": 837,
+          "line_end": 861
+        },
+        {
+          "name": "test_nested_blueprint",
+          "line_start": 864,
+          "line_end": 910
+        },
+        {
+          "name": "test_nested_callback_order",
+          "line_start": 913,
+          "line_end": 990
+        },
+        {
+          "name": "test_nesting_subdomains",
+          "line_start": 1024,
+          "line_end": 1040
+        },
+        {
+          "name": "test_child_and_parent_subdomain",
+          "line_start": 1043,
+          "line_end": 1062
+        },
+        {
+          "name": "test_unique_blueprint_names",
+          "line_start": 1065,
+          "line_end": 1079
+        },
+        {
+          "name": "test_self_registration",
+          "line_start": 1082,
+          "line_end": 1085
+        },
+        {
+          "name": "test_blueprint_renaming",
+          "line_start": 1088,
+          "line_end": 1117
+        }
+      ],
+      "routes": []
+    },
+    {
+      "path": "tests\\test_cli.py",
+      "language": "py",
+      "imports": [
+        "import importlib.metadata",
+        "import os",
+        "import platform",
+        "import ssl",
+        "import sys",
+        "import types",
+        "from functools import partial",
+        "from pathlib import Path",
+        "import click",
+        "import pytest",
+        "from _pytest.monkeypatch import notset",
+        "from click.testing import CliRunner",
+        "from flask import Blueprint",
+        "from flask import current_app",
+        "from flask import Flask",
+        "from flask.cli import AppGroup",
+        "from flask.cli import find_best_app",
+        "from flask.cli import FlaskGroup",
+        "from flask.cli import get_version",
+        "from flask.cli import load_dotenv",
+        "from flask.cli import locate_app",
+        "from flask.cli import NoAppException",
+        "from flask.cli import prepare_import",
+        "from flask.cli import run_command",
+        "from flask.cli import ScriptInfo",
+        "from flask.cli import with_appcontext"
+      ],
+      "classes": [
+        {
+          "name": "TestRoutes",
+          "methods": []
+        }
+      ],
+      "functions": [
+        {
+          "name": "test_cli_name",
+          "line_start": 40,
+          "line_end": 44
+        },
+        {
+          "name": "test_find_best_app",
+          "line_start": 47,
+          "line_end": 131
+        },
+        {
+          "name": "test_locate_app_suppress_raise",
+          "line_start": 221,
+          "line_end": 227
+        },
+        {
+          "name": "test_get_version",
+          "line_start": 230,
+          "line_end": 243
+        },
+        {
+          "name": "test_scriptinfo",
+          "line_start": 246,
+          "line_end": 285
+        },
+        {
+          "name": "test_app_cli_has_app_context",
+          "line_start": 288,
+          "line_end": 303
+        },
+        {
+          "name": "test_with_appcontext",
+          "line_start": 306,
+          "line_end": 316
+        },
+        {
+          "name": "test_appgroup_app_context",
+          "line_start": 319,
+          "line_end": 344
+        },
+        {
+          "name": "test_flaskgroup_app_context",
+          "line_start": 347,
+          "line_end": 361
+        },
+        {
+          "name": "test_flaskgroup_nested",
+          "line_start": 384,
+          "line_end": 394
+        },
+        {
+          "name": "test_no_command_echo_loading_error",
+          "line_start": 397,
+          "line_end": 409
+        },
+        {
+          "name": "test_help_echo_loading_error",
+          "line_start": 412,
+          "line_end": 424
+        },
+        {
+          "name": "test_help_echo_exception",
+          "line_start": 427,
+          "line_end": 442
+        },
+        {
+          "name": "dotenv_not_available",
+          "line_start": 521,
+          "line_end": 527
+        },
+        {
+          "name": "test_dotenv_optional",
+          "line_start": 569,
+          "line_end": 573
+        },
+        {
+          "name": "test_run_cert_path",
+          "line_start": 584,
+          "line_end": 599
+        },
+        {
+          "name": "test_run_cert_adhoc",
+          "line_start": 602,
+          "line_end": 616
+        },
+        {
+          "name": "test_run_cert_import",
+          "line_start": 619,
+          "line_end": 638
+        },
+        {
+          "name": "test_run_cert_no_ssl",
+          "line_start": 641,
+          "line_end": 645
+        },
+        {
+          "name": "test_cli_blueprints",
+          "line_start": 648,
+          "line_end": 688
+        },
+        {
+          "name": "test_cli_empty",
+          "line_start": 691,
+          "line_end": 697
+        },
+        {
+          "name": "test_run_exclude_patterns",
+          "line_start": 700,
+          "line_end": 702
+        }
+      ],
+      "routes": []
+    },
+    {
+      "path": "tests\\test_config.py",
+      "language": "py",
+      "imports": [
+        "import json",
+        "import os",
+        "import pytest",
+        "import flask"
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "common_object_test",
+          "line_start": 12,
+          "line_end": 15
+        },
+        {
+          "name": "test_config_from_pyfile",
+          "line_start": 18,
+          "line_end": 21
+        },
+        {
+          "name": "test_config_from_object",
+          "line_start": 24,
+          "line_end": 27
+        },
+        {
+          "name": "test_config_from_file_json",
+          "line_start": 30,
+          "line_end": 34
+        },
+        {
+          "name": "test_config_from_file_toml",
+          "line_start": 37,
+          "line_end": 44
+        },
+        {
+          "name": "test_from_prefixed_env",
+          "line_start": 47,
+          "line_end": 65
+        },
+        {
+          "name": "test_from_prefixed_env_custom_prefix",
+          "line_start": 68,
+          "line_end": 75
+        },
+        {
+          "name": "test_from_prefixed_env_nested",
+          "line_start": 78,
+          "line_end": 106
+        },
+        {
+          "name": "test_config_from_mapping",
+          "line_start": 109,
+          "line_end": 128
+        },
+        {
+          "name": "test_config_from_class",
+          "line_start": 131,
+          "line_end": 140
+        },
+        {
+          "name": "test_config_from_envvar",
+          "line_start": 143,
+          "line_end": 157
+        },
+        {
+          "name": "test_config_from_envvar_missing",
+          "line_start": 160,
+          "line_end": 170
+        },
+        {
+          "name": "test_config_missing",
+          "line_start": 173,
+          "line_end": 182
+        },
+        {
+          "name": "test_config_missing_file",
+          "line_start": 185,
+          "line_end": 194
+        },
+        {
+          "name": "test_custom_config_class",
+          "line_start": 197,
+          "line_end": 207
+        },
+        {
+          "name": "test_session_lifetime",
+          "line_start": 210,
+          "line_end": 213
+        },
+        {
+          "name": "test_get_namespace",
+          "line_start": 216,
+          "line_end": 239
+        }
+      ],
+      "routes": []
+    },
+    {
+      "path": "tests\\test_converters.py",
+      "language": "py",
+      "imports": [
+        "from werkzeug.routing import BaseConverter",
+        "from flask import request",
+        "from flask import session",
+        "from flask import url_for"
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "test_custom_converters",
+          "line_start": 7,
+          "line_end": 25
+        },
+        {
+          "name": "test_context_available",
+          "line_start": 28,
+          "line_end": 41
+        }
+      ],
+      "routes": []
+    },
+    {
+      "path": "tests\\test_helpers.py",
+      "language": "py",
+      "imports": [
+        "import io",
+        "import os",
+        "import pytest",
+        "import werkzeug.exceptions",
+        "import flask",
+        "from flask.helpers import get_debug_flag"
+      ],
+      "classes": [
+        {
+          "name": "FakePath",
+          "methods": []
+        },
+        {
+          "name": "PyBytesIO",
+          "methods": []
+        },
+        {
+          "name": "TestSendfile",
+          "methods": []
+        },
+        {
+          "name": "TestUrlFor",
+          "methods": []
+        },
+        {
+          "name": "TestNoImports",
+          "methods": []
+        },
+        {
+          "name": "TestStreaming",
+          "methods": []
+        },
+        {
+          "name": "TestHelpers",
+          "methods": []
+        }
+      ],
+      "functions": [
+        {
+          "name": "test_redirect_no_app",
+          "line_start": 163,
+          "line_end": 166
+        },
+        {
+          "name": "test_redirect_with_app",
+          "line_start": 169,
+          "line_end": 176
+        },
+        {
+          "name": "test_abort_no_app",
+          "line_start": 179,
+          "line_end": 184
+        },
+        {
+          "name": "test_app_aborter_class",
+          "line_start": 187,
+          "line_end": 195
+        },
+        {
+          "name": "test_abort_with_app",
+          "line_start": 198,
+          "line_end": 205
+        }
+      ],
+      "routes": []
+    },
+    {
+      "path": "tests\\test_instance_config.py",
+      "language": "py",
+      "imports": [
+        "import os",
+        "import pytest",
+        "import flask"
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "test_explicit_instance_paths",
+          "line_start": 7,
+          "line_end": 12
+        },
+        {
+          "name": "test_uninstalled_module_paths",
+          "line_start": 15,
+          "line_end": 26
+        },
+        {
+          "name": "test_uninstalled_package_paths",
+          "line_start": 29,
+          "line_end": 42
+        },
+        {
+          "name": "test_uninstalled_namespace_paths",
+          "line_start": 45,
+          "line_end": 61
+        },
+        {
+          "name": "test_installed_module_paths",
+          "line_start": 64,
+          "line_end": 76
+        },
+        {
+          "name": "test_installed_package_paths",
+          "line_start": 79,
+          "line_end": 95
+        },
+        {
+          "name": "test_prefix_package_paths",
+          "line_start": 98,
+          "line_end": 110
+        }
+      ],
+      "routes": []
+    },
+    {
+      "path": "tests\\test_json.py",
+      "language": "py",
+      "imports": [
+        "import datetime",
+        "import decimal",
+        "import io",
+        "import uuid",
+        "import pytest",
+        "from werkzeug.http import http_date",
+        "import flask",
+        "from flask import json",
+        "from flask.json.provider import DefaultJSONProvider"
+      ],
+      "classes": [
+        {
+          "name": "FixedOffset",
+          "methods": []
+        }
+      ],
+      "functions": [
+        {
+          "name": "test_json_bad_requests",
+          "line_start": 29,
+          "line_end": 35
+        },
+        {
+          "name": "test_json_custom_mimetypes",
+          "line_start": 38,
+          "line_end": 44
+        },
+        {
+          "name": "test_json_dump_to_file",
+          "line_start": 56,
+          "line_end": 63
+        },
+        {
+          "name": "test_jsonify_dicts",
+          "line_start": 77,
+          "line_end": 101
+        },
+        {
+          "name": "test_jsonify_arrays",
+          "line_start": 104,
+          "line_end": 129
+        },
+        {
+          "name": "test_jsonify_uuid_types",
+          "line_start": 175,
+          "line_end": 187
+        },
+        {
+          "name": "test_json_decimal",
+          "line_start": 190,
+          "line_end": 192
+        },
+        {
+          "name": "test_json_attr",
+          "line_start": 195,
+          "line_end": 206
+        },
+        {
+          "name": "test_tojson_filter",
+          "line_start": 209,
+          "line_end": 219
+        },
+        {
+          "name": "test_json_customization",
+          "line_start": 222,
+          "line_end": 256
+        },
+        {
+          "name": "_has_encoding",
+          "line_start": 259,
+          "line_end": 266
+        },
+        {
+          "name": "test_json_key_sorting",
+          "line_start": 269,
+          "line_end": 336
+        },
+        {
+          "name": "test_html_method",
+          "line_start": 339,
+          "line_end": 345
+        }
+      ],
+      "routes": []
+    },
+    {
+      "path": "tests\\test_json_tag.py",
+      "language": "py",
+      "imports": [
+        "from datetime import datetime",
+        "from datetime import timezone",
+        "from uuid import uuid4",
+        "import pytest",
+        "from markupsafe import Markup",
+        "from flask.json.tag import JSONTag",
+        "from flask.json.tag import TaggedJSONSerializer"
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "test_duplicate_tag",
+          "line_start": 31,
+          "line_end": 39
+        },
+        {
+          "name": "test_custom_tag",
+          "line_start": 42,
+          "line_end": 62
+        },
+        {
+          "name": "test_tag_interface",
+          "line_start": 65,
+          "line_end": 69
+        },
+        {
+          "name": "test_tag_order",
+          "line_start": 72,
+          "line_end": 85
+        }
+      ],
+      "routes": []
+    },
+    {
+      "path": "tests\\test_logging.py",
+      "language": "py",
+      "imports": [
+        "import logging",
+        "import sys",
+        "from io import StringIO",
+        "import pytest",
+        "from flask.logging import default_handler",
+        "from flask.logging import has_level_handler",
+        "from flask.logging import wsgi_errors_stream"
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "test_logger",
+          "line_start": 35,
+          "line_end": 38
+        },
+        {
+          "name": "test_logger_debug",
+          "line_start": 41,
+          "line_end": 44
+        },
+        {
+          "name": "test_existing_handler",
+          "line_start": 47,
+          "line_end": 50
+        },
+        {
+          "name": "test_wsgi_errors_stream",
+          "line_start": 53,
+          "line_end": 66
+        },
+        {
+          "name": "test_has_level_handler",
+          "line_start": 69,
+          "line_end": 82
+        },
+        {
+          "name": "test_log_view_exception",
+          "line_start": 85,
+          "line_end": 97
+        }
+      ],
+      "routes": []
+    },
+    {
+      "path": "tests\\test_regression.py",
+      "language": "py",
+      "imports": [
+        "import flask"
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "test_aborting",
+          "line_start": 3,
+          "line_end": 29
+        }
+      ],
+      "routes": []
+    },
+    {
+      "path": "tests\\test_reqctx.py",
+      "language": "py",
+      "imports": [
+        "import warnings",
+        "import pytest",
+        "import flask",
+        "from flask.globals import app_ctx",
+        "from flask.sessions import SecureCookieSessionInterface",
+        "from flask.sessions import SessionInterface"
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "test_teardown_on_pop",
+          "line_start": 15,
+          "line_end": 26
+        },
+        {
+          "name": "test_teardown_with_previous_exception",
+          "line_start": 29,
+          "line_end": 43
+        },
+        {
+          "name": "test_teardown_with_handled_exception",
+          "line_start": 46,
+          "line_end": 59
+        },
+        {
+          "name": "test_proper_test_request_context",
+          "line_start": 62,
+          "line_end": 103
+        },
+        {
+          "name": "test_context_binding",
+          "line_start": 106,
+          "line_end": 119
+        },
+        {
+          "name": "test_context_test",
+          "line_start": 122,
+          "line_end": 131
+        },
+        {
+          "name": "test_manual_context_binding",
+          "line_start": 134,
+          "line_end": 144
+        },
+        {
+          "name": "test_session_error_pops_context",
+          "line_start": 204,
+          "line_end": 225
+        },
+        {
+          "name": "test_session_dynamic_cookie_name",
+          "line_start": 228,
+          "line_end": 276
+        },
+        {
+          "name": "test_bad_environ_raises_bad_request",
+          "line_start": 279,
+          "line_end": 293
+        },
+        {
+          "name": "test_normal_environ_completes",
+          "line_start": 296,
+          "line_end": 304
+        }
+      ],
+      "routes": []
+    },
+    {
+      "path": "tests\\test_request.py",
+      "language": "py",
+      "imports": [
+        "from flask import Flask",
+        "from flask import Request",
+        "from flask import request",
+        "from flask.testing import FlaskClient"
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "test_max_content_length",
+          "line_start": 8,
+          "line_end": 21
+        },
+        {
+          "name": "test_limit_config",
+          "line_start": 24,
+          "line_end": 53
+        },
+        {
+          "name": "test_trusted_hosts_config",
+          "line_start": 56,
+          "line_end": 69
+        }
+      ],
+      "routes": []
+    },
+    {
+      "path": "tests\\test_session_interface.py",
+      "language": "py",
+      "imports": [
+        "import flask",
+        "from flask.globals import app_ctx",
+        "from flask.sessions import SessionInterface"
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "test_open_session_with_endpoint",
+          "line_start": 5,
+          "line_end": 27
+        }
+      ],
+      "routes": []
+    },
+    {
+      "path": "tests\\test_signals.py",
+      "language": "py",
+      "imports": [
+        "import flask"
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "test_template_rendered",
+          "line_start": 3,
+          "line_end": 21
+        },
+        {
+          "name": "test_before_render_template",
+          "line_start": 24,
+          "line_end": 46
+        },
+        {
+          "name": "test_request_signals",
+          "line_start": 49,
+          "line_end": 91
+        },
+        {
+          "name": "test_request_exception_signal",
+          "line_start": 94,
+          "line_end": 111
+        },
+        {
+          "name": "test_appcontext_signals",
+          "line_start": 114,
+          "line_end": 135
+        },
+        {
+          "name": "test_flash_signal",
+          "line_start": 138,
+          "line_end": 159
+        },
+        {
+          "name": "test_appcontext_tearing_down_signal",
+          "line_start": 162,
+          "line_end": 180
+        }
+      ],
+      "routes": []
+    },
+    {
+      "path": "tests\\test_subclassing.py",
+      "language": "py",
+      "imports": [
+        "from io import StringIO",
+        "import flask"
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "test_suppressed_exception_logging",
+          "line_start": 5,
+          "line_end": 20
+        }
+      ],
+      "routes": []
+    },
+    {
+      "path": "tests\\test_templating.py",
+      "language": "py",
+      "imports": [
+        "import logging",
+        "import pytest",
+        "import werkzeug.serving",
+        "from jinja2 import TemplateNotFound",
+        "from markupsafe import Markup",
+        "import flask"
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "test_context_processing",
+          "line_start": 10,
+          "line_end": 20
+        },
+        {
+          "name": "test_original_win",
+          "line_start": 23,
+          "line_end": 29
+        },
+        {
+          "name": "test_simple_stream",
+          "line_start": 32,
+          "line_end": 38
+        },
+        {
+          "name": "test_request_less_rendering",
+          "line_start": 41,
+          "line_end": 49
+        },
+        {
+          "name": "test_standard_context",
+          "line_start": 52,
+          "line_end": 67
+        },
+        {
+          "name": "test_escaping",
+          "line_start": 70,
+          "line_end": 87
+        },
+        {
+          "name": "test_no_escaping",
+          "line_start": 90,
+          "line_end": 109
+        },
+        {
+          "name": "test_escaping_without_template_filename",
+          "line_start": 112,
+          "line_end": 114
+        },
+        {
+          "name": "test_macros",
+          "line_start": 117,
+          "line_end": 119
+        },
+        {
+          "name": "test_template_filter",
+          "line_start": 122,
+          "line_end": 153
+        },
+        {
+          "name": "test_add_template_filter",
+          "line_start": 156,
+          "line_end": 163
+        },
+        {
+          "name": "test_template_filter_with_name",
+          "line_start": 166,
+          "line_end": 173
+        },
+        {
+          "name": "test_add_template_filter_with_name",
+          "line_start": 176,
+          "line_end": 183
+        },
+        {
+          "name": "test_template_filter_with_template",
+          "line_start": 186,
+          "line_end": 196
+        },
+        {
+          "name": "test_add_template_filter_with_template",
+          "line_start": 199,
+          "line_end": 210
+        },
+        {
+          "name": "test_template_filter_with_name_and_template",
+          "line_start": 213,
+          "line_end": 223
+        },
+        {
+          "name": "test_add_template_filter_with_name_and_template",
+          "line_start": 226,
+          "line_end": 237
+        },
+        {
+          "name": "test_template_test",
+          "line_start": 240,
+          "line_end": 271
+        },
+        {
+          "name": "test_add_template_test",
+          "line_start": 274,
+          "line_end": 281
+        },
+        {
+          "name": "test_template_test_with_name",
+          "line_start": 284,
+          "line_end": 291
+        },
+        {
+          "name": "test_add_template_test_with_name",
+          "line_start": 294,
+          "line_end": 301
+        },
+        {
+          "name": "test_template_test_with_template",
+          "line_start": 304,
+          "line_end": 314
+        },
+        {
+          "name": "test_add_template_test_with_template",
+          "line_start": 317,
+          "line_end": 328
+        },
+        {
+          "name": "test_template_test_with_name_and_template",
+          "line_start": 331,
+          "line_end": 341
+        },
+        {
+          "name": "test_add_template_test_with_name_and_template",
+          "line_start": 344,
+          "line_end": 355
+        },
+        {
+          "name": "test_add_template_global",
+          "line_start": 358,
+          "line_end": 401
+        },
+        {
+          "name": "test_custom_template_loader",
+          "line_start": 404,
+          "line_end": 419
+        },
+        {
+          "name": "test_iterable_loader",
+          "line_start": 422,
+          "line_end": 439
+        },
+        {
+          "name": "test_templates_auto_reload",
+          "line_start": 442,
+          "line_end": 471
+        },
+        {
+          "name": "test_templates_auto_reload_debug_run",
+          "line_start": 474,
+          "line_end": 484
+        },
+        {
+          "name": "test_template_loader_debugging",
+          "line_start": 487,
+          "line_end": 520
+        },
+        {
+          "name": "test_custom_jinja_env",
+          "line_start": 523,
+          "line_end": 531
+        }
+      ],
+      "routes": []
+    },
+    {
+      "path": "tests\\test_testing.py",
+      "language": "py",
+      "imports": [
+        "import importlib.metadata",
+        "import click",
+        "import pytest",
+        "import flask",
+        "from flask import appcontext_popped",
+        "from flask.cli import ScriptInfo",
+        "from flask.globals import _cv_app",
+        "from flask.json import jsonify",
+        "from flask.testing import EnvironBuilder",
+        "from flask.testing import FlaskCliRunner"
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "test_environ_defaults_from_config",
+          "line_start": 14,
+          "line_end": 26
+        },
+        {
+          "name": "test_environ_defaults",
+          "line_start": 29,
+          "line_end": 38
+        },
+        {
+          "name": "test_environ_base_default",
+          "line_start": 41,
+          "line_end": 53
+        },
+        {
+          "name": "test_environ_base_modified",
+          "line_start": 56,
+          "line_end": 69
+        },
+        {
+          "name": "test_client_open_environ",
+          "line_start": 72,
+          "line_end": 85
+        },
+        {
+          "name": "test_specify_url_scheme",
+          "line_start": 88,
+          "line_end": 97
+        },
+        {
+          "name": "test_path_is_url",
+          "line_start": 100,
+          "line_end": 105
+        },
+        {
+          "name": "test_environbuilder_json_dumps",
+          "line_start": 108,
+          "line_end": 112
+        },
+        {
+          "name": "test_blueprint_with_subdomain",
+          "line_start": 115,
+          "line_end": 136
+        },
+        {
+          "name": "test_redirect_session",
+          "line_start": 139,
+          "line_end": 153
+        },
+        {
+          "name": "test_session_transactions",
+          "line_start": 156,
+          "line_end": 170
+        },
+        {
+          "name": "test_session_transactions_no_null_sessions",
+          "line_start": 173,
+          "line_end": 180
+        },
+        {
+          "name": "test_session_transactions_keep_context",
+          "line_start": 183,
+          "line_end": 188
+        },
+        {
+          "name": "test_session_transaction_needs_cookies",
+          "line_start": 191,
+          "line_end": 196
+        },
+        {
+          "name": "test_test_client_context_binding",
+          "line_start": 199,
+          "line_end": 225
+        },
+        {
+          "name": "test_reuse_client",
+          "line_start": 228,
+          "line_end": 235
+        },
+        {
+          "name": "test_full_url_request",
+          "line_start": 238,
+          "line_end": 247
+        },
+        {
+          "name": "test_json_request_and_response",
+          "line_start": 250,
+          "line_end": 266
+        },
+        {
+          "name": "test_client_json_no_app_context",
+          "line_start": 269,
+          "line_end": 286
+        },
+        {
+          "name": "test_subdomain",
+          "line_start": 289,
+          "line_end": 305
+        },
+        {
+          "name": "test_nosubdomain",
+          "line_start": 308,
+          "line_end": 322
+        },
+        {
+          "name": "test_cli_runner_class",
+          "line_start": 325,
+          "line_end": 334
+        },
+        {
+          "name": "test_cli_invoke",
+          "line_start": 337,
+          "line_end": 348
+        },
+        {
+          "name": "test_cli_custom_obj",
+          "line_start": 351,
+          "line_end": 366
+        },
+        {
+          "name": "test_client_pop_all_preserved",
+          "line_start": 369,
+          "line_end": 383
+        }
+      ],
+      "routes": []
+    },
+    {
+      "path": "tests\\test_user_error_handler.py",
+      "language": "py",
+      "imports": [
+        "import pytest",
+        "from werkzeug.exceptions import Forbidden",
+        "from werkzeug.exceptions import HTTPException",
+        "from werkzeug.exceptions import InternalServerError",
+        "from werkzeug.exceptions import NotFound",
+        "import flask"
+      ],
+      "classes": [
+        {
+          "name": "TestGenericHandlers",
+          "methods": []
+        }
+      ],
+      "functions": [
+        {
+          "name": "test_error_handler_no_match",
+          "line_start": 9,
+          "line_end": 57
+        },
+        {
+          "name": "test_error_handler_subclass",
+          "line_start": 60,
+          "line_end": 96
+        },
+        {
+          "name": "test_error_handler_http_subclass",
+          "line_start": 99,
+          "line_end": 132
+        },
+        {
+          "name": "test_error_handler_blueprint",
+          "line_start": 135,
+          "line_end": 159
+        },
+        {
+          "name": "test_default_error_handler",
+          "line_start": 162,
+          "line_end": 213
+        }
+      ],
+      "routes": []
+    },
+    {
+      "path": "tests\\test_views.py",
+      "language": "py",
+      "imports": [
+        "import pytest",
+        "from werkzeug.http import parse_set_header",
+        "import flask.views",
+        "from flask.testing import FlaskClient"
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "common_test",
+          "line_start": 7,
+          "line_end": 14
+        },
+        {
+          "name": "test_basic_view",
+          "line_start": 17,
+          "line_end": 25
+        },
+        {
+          "name": "test_method_based_view",
+          "line_start": 28,
+          "line_end": 38
+        },
+        {
+          "name": "test_view_patching",
+          "line_start": 41,
+          "line_end": 59
+        },
+        {
+          "name": "test_view_inheritance",
+          "line_start": 62,
+          "line_end": 77
+        },
+        {
+          "name": "test_view_decorators",
+          "line_start": 80,
+          "line_end": 98
+        },
+        {
+          "name": "test_view_provide_automatic_options_attr_disable",
+          "line_start": 101,
+          "line_end": 114
+        },
+        {
+          "name": "test_view_provide_automatic_options_attr_enable",
+          "line_start": 117,
+          "line_end": 133
+        },
+        {
+          "name": "test_provide_automatic_options_method_disable",
+          "line_start": 136,
+          "line_end": 149
+        },
+        {
+          "name": "test_implicit_head",
+          "line_start": 152,
+          "line_end": 163
+        },
+        {
+          "name": "test_explicit_head",
+          "line_start": 166,
+          "line_end": 179
+        },
+        {
+          "name": "test_endpoint_override",
+          "line_start": 182,
+          "line_end": 197
+        },
+        {
+          "name": "test_methods_var_inheritance",
+          "line_start": 200,
+          "line_end": 215
+        },
+        {
+          "name": "test_multiple_inheritance",
+          "line_start": 218,
+          "line_end": 234
+        },
+        {
+          "name": "test_remove_method_from_parent",
+          "line_start": 237,
+          "line_end": 253
+        },
+        {
+          "name": "test_init_once",
+          "line_start": 256,
+          "line_end": 271
+        }
+      ],
+      "routes": []
+    },
+    {
+      "path": "tests\\test_apps\\blueprintapp\\__init__.py",
+      "language": "py",
+      "imports": [
+        "from flask import Flask",
+        "from blueprintapp.apps.admin import admin",
+        "from blueprintapp.apps.frontend import frontend"
+      ],
+      "classes": [],
+      "functions": [],
+      "routes": []
+    },
+    {
+      "path": "tests\\test_apps\\blueprintapp\\apps\\__init__.py",
+      "language": "py",
+      "imports": [],
+      "classes": [],
+      "functions": [],
+      "routes": []
+    },
+    {
+      "path": "tests\\test_apps\\blueprintapp\\apps\\admin\\__init__.py",
+      "language": "py",
+      "imports": [
+        "from flask import Blueprint",
+        "from flask import render_template"
+      ],
+      "classes": [],
+      "functions": [],
+      "routes": []
+    },
+    {
+      "path": "tests\\test_apps\\blueprintapp\\apps\\frontend\\__init__.py",
+      "language": "py",
+      "imports": [
+        "from flask import Blueprint",
+        "from flask import render_template"
+      ],
+      "classes": [],
+      "functions": [],
+      "routes": []
+    },
+    {
+      "path": "tests\\test_apps\\cliapp\\app.py",
+      "language": "py",
+      "imports": [
+        "from flask import Flask"
+      ],
+      "classes": [],
+      "functions": [],
+      "routes": []
+    },
+    {
+      "path": "tests\\test_apps\\cliapp\\factory.py",
+      "language": "py",
+      "imports": [
+        "from flask import Flask"
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "create_app",
+          "line_start": 3,
+          "line_end": 4
+        },
+        {
+          "name": "create_app2",
+          "line_start": 7,
+          "line_end": 8
+        },
+        {
+          "name": "no_app",
+          "line_start": 11,
+          "line_end": 12
+        }
+      ],
+      "routes": []
+    },
+    {
+      "path": "tests\\test_apps\\cliapp\\importerrorapp.py",
+      "language": "py",
+      "imports": [
+        "from flask import Flask"
+      ],
+      "classes": [],
+      "functions": [],
+      "routes": []
+    },
+    {
+      "path": "tests\\test_apps\\cliapp\\multiapp.py",
+      "language": "py",
+      "imports": [
+        "from flask import Flask"
+      ],
+      "classes": [],
+      "functions": [],
+      "routes": []
+    },
+    {
+      "path": "tests\\test_apps\\cliapp\\__init__.py",
+      "language": "py",
+      "imports": [],
+      "classes": [],
+      "functions": [],
+      "routes": []
+    },
+    {
+      "path": "tests\\test_apps\\cliapp\\inner1\\__init__.py",
+      "language": "py",
+      "imports": [
+        "from flask import Flask"
+      ],
+      "classes": [],
+      "functions": [],
+      "routes": []
+    },
+    {
+      "path": "tests\\test_apps\\cliapp\\inner1\\inner2\\flask.py",
+      "language": "py",
+      "imports": [
+        "from flask import Flask"
+      ],
+      "classes": [],
+      "functions": [],
+      "routes": []
+    },
+    {
+      "path": "tests\\test_apps\\cliapp\\inner1\\inner2\\__init__.py",
+      "language": "py",
+      "imports": [],
+      "classes": [],
+      "functions": [],
+      "routes": []
+    },
+    {
+      "path": "tests\\test_apps\\helloworld\\hello.py",
+      "language": "py",
+      "imports": [
+        "from flask import Flask"
+      ],
+      "classes": [],
+      "functions": [],
+      "routes": []
+    },
+    {
+      "path": "tests\\test_apps\\helloworld\\wsgi.py",
+      "language": "py",
+      "imports": [
+        "from hello import app"
+      ],
+      "classes": [],
+      "functions": [],
+      "routes": []
+    },
+    {
+      "path": "tests\\test_apps\\subdomaintestmodule\\__init__.py",
+      "language": "py",
+      "imports": [
+        "from flask import Module"
+      ],
+      "classes": [],
+      "functions": [],
+      "routes": []
+    },
+    {
+      "path": "tests\\type_check\\typing_app_decorators.py",
+      "language": "py",
+      "imports": [
+        "from flask import Flask",
+        "from flask import Response"
+      ],
+      "classes": [],
+      "functions": [],
+      "routes": []
+    },
+    {
+      "path": "tests\\type_check\\typing_error_handler.py",
+      "language": "py",
+      "imports": [
+        "from http import HTTPStatus",
+        "from werkzeug.exceptions import BadRequest",
+        "from werkzeug.exceptions import NotFound",
+        "from flask import Flask"
+      ],
+      "classes": [],
+      "functions": [],
+      "routes": []
+    },
+    {
+      "path": "tests\\type_check\\typing_route.py",
+      "language": "py",
+      "imports": [
+        "import typing as t",
+        "from http import HTTPStatus",
+        "from flask import Flask",
+        "from flask import jsonify",
+        "from flask import stream_template",
+        "from flask.templating import render_template",
+        "from flask.views import View",
+        "from flask.wrappers import Response"
+      ],
+      "classes": [
+        {
+          "name": "StatusJSON",
+          "methods": []
+        },
+        {
+          "name": "RenderTemplateView",
+          "methods": []
+        }
+      ],
+      "functions": [],
+      "routes": []
+    }
+  ]
+}
