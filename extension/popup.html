@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>Codebase Explainer</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="ext-root">
+
+  <!-- HEADER -->
+  <div class="ext-header">
+    <div class="ext-logo">
+      <svg viewBox="0 0 16 16" fill="none">
+        <path d="M2 8L5 5L9 9L12 6L14 8" stroke="#E6F1FB" stroke-width="1.6"
+              stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div style="flex:1">
+      <div class="ext-title">Codebase Explainer</div>
+      <div class="ext-sub">GitHub architectural map</div>
+    </div>
+    <div class="header-right">
+      <span class="live-badge" id="statusBadge">ready</span>
+      <button class="theme-btn" id="themeBtn" title="Toggle theme">☀️</button>
+    </div>
+  </div>
+
+  <!-- REPO BAR -->
+  <div class="repo-bar">
+    <span class="repo-name"    id="o-repo">No repo detected</span>
+    <span class="badge badge-entry" id="o-lang"        style="display:none"></span>
+    <span class="badge badge-core"  id="o-files-badge" style="display:none"></span>
+  </div>
+
+  <!-- STATE: not on a github repo -->
+  <div id="state-no-repo" class="state-box">
+    <div class="state-icon">🔍</div>
+    <div class="state-title">No repository detected</div>
+    <div class="state-desc">Navigate to any GitHub repository and click Analyze to generate its architectural map.</div>
+  </div>
+
+  <!-- STATE: on a repo, ready to analyze -->
+  <div id="state-ready" style="display:none; padding:16px">
+    <button class="analyze-btn" id="analyzeBtn" onclick="startAnalysis()">
+      Analyze this repository
+    </button>
+  </div>
+
+  <!-- STATE: loading -->
+  <div id="state-loading" style="display:none">
+    <div class="loading-bar"></div>
+    <div class="loading-steps">
+      <div class="loading-step" id="ls-clone">Cloning repository...</div>
+      <div class="loading-step" id="ls-parse">Parsing file tree...</div>
+      <div class="loading-step" id="ls-graph">Building dependency graph...</div>
+      <div class="loading-step" id="ls-arch">Detecting architecture...</div>
+      <div class="loading-step" id="ls-flow">Mapping data flow...</div>
+    </div>
+  </div>
+
+  <!-- STATE: done — full UI -->
+  <div id="state-done" style="display:none">
+
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('overview',    this)">Overview</div>
+      <div class="tab"        onclick="switchTab('walkthrough', this)">Walkthrough</div>
+      <div class="tab"        onclick="switchTab('ask',         this)">Ask</div>
+    </div>
+
+    <!-- OVERVIEW TAB -->
+    <div class="panel active" id="panel-overview">
+
+      <div class="section">
+        <div class="section-label">Architecture breakdown</div>
+        <div class="arch-grid">
+          <div class="arch-card ac-blue">
+            <div class="arch-card-label">Entry points</div>
+            <div class="arch-card-count" id="o-c-entry">—</div>
+            <div class="arch-card-sub"   id="o-s-entry">—</div>
+          </div>
+          <div class="arch-card ac-teal">
+            <div class="arch-card-label">Core logic</div>
+            <div class="arch-card-count" id="o-c-core">—</div>
+            <div class="arch-card-sub"   id="o-s-core">—</div>
+          </div>
+          <div class="arch-card ac-amber">
+            <div class="arch-card-label">Data layer</div>
+            <div class="arch-card-count" id="o-c-data">—</div>
+            <div class="arch-card-sub"   id="o-s-data">—</div>
+          </div>
+          <div class="arch-card ac-gray">
+            <div class="arch-card-label">Config / utils</div>
+            <div class="arch-card-count" id="o-c-cfg">—</div>
+            <div class="arch-card-sub"   id="o-s-cfg">—</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Top files by importance</div>
+        <div id="o-files-list"></div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Data flow path</div>
+        <div class="flow-row" id="o-flow"></div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Repo health signals</div>
+        <div class="health-grid">
+          <div class="health-card">
+            <div class="health-val" id="h-depth" style="color:var(--text-primary)">—</div>
+            <div class="health-label">max depth</div>
+          </div>
+          <div class="health-card">
+            <div class="health-val" id="h-cov" style="color:var(--teal-sub)">—</div>
+            <div class="health-label">test cov.</div>
+          </div>
+          <div class="health-card">
+            <div class="health-val" id="h-deps" style="color:var(--amber-sub)">—</div>
+            <div class="health-label">ext. deps</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Languages detected</div>
+        <div class="lang-row" id="o-langs"></div>
+      </div>
+
+    </div>
+
+    <!-- WALKTHROUGH TAB -->
+    <div class="panel" id="panel-walkthrough">
+
+      <div class="section">
+        <div class="section-label">Guided reading order</div>
+        <div id="o-steps"></div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Reading strategy</div>
+        <div style="display:flex; flex-direction:column; gap:7px">
+          <div class="tip-row">
+            <div class="tip-dot" style="background:var(--accent)"></div>
+            <div class="tip-text">Skim entry points for shape, not detail — they're usually glue code</div>
+          </div>
+          <div class="tip-row">
+            <div class="tip-dot" style="background:var(--teal-sub)"></div>
+            <div class="tip-text">Jump early to files with the highest dependency centrality</div>
+          </div>
+          <div class="tip-row">
+            <div class="tip-dot" style="background:var(--amber-sub)"></div>
+            <div class="tip-text">Defer config, build tools, and test boilerplate until task-relevant</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Estimated reading time</div>
+        <div class="time-grid">
+          <div class="time-card" style="background:var(--blue-bg); border-color:var(--blue-border)">
+            <div class="time-val" id="t-quick" style="color:var(--blue-text)">—</div>
+            <div class="time-label" style="color:var(--blue-sub)">quick scan</div>
+          </div>
+          <div class="time-card" style="background:var(--teal-bg); border-color:var(--teal-border)">
+            <div class="time-val" id="t-deep" style="color:var(--teal-text)">—</div>
+            <div class="time-label" style="color:var(--teal-sub)">deep read</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ASK TAB -->
+    <div class="ask-panel" id="panel-ask">
+
+      <div class="chat-scroll" id="chatArea"></div>
+
+      <div class="quick-btns">
+        <button class="quick-btn" onclick="sendQ('How many entry points are there?')">Entry count</button>
+        <button class="quick-btn" onclick="sendQ('What are the core files?')">Core files</button>
+        <button class="quick-btn" onclick="sendQ('How does data flow work?')">Data flow</button>
+        <button class="quick-btn" onclick="sendQ('Where should I start reading?')">Where to start</button>
+      </div>
+
+      <div class="chat-input-row">
+        <input class="chat-input" id="chatIn"
+               placeholder="Ask about this codebase..."
+               onkeydown="if(event.key === 'Enter') sendChat()" />
+        <button class="chat-send" onclick="sendChat()">Ask ↗</button>
+      </div>
+
+    </div>
+
+  </div><!-- /state-done -->
+
+  <!-- FOOTER -->
+  <div class="footer-bar">
+    <span class="footer-text">tree-sitter + gpt-4 · codebase explainer</span>
+    <button class="re-analyze-btn" id="reAnalyzeBtn" style="display:none" onclick="startAnalysis()">↺ Re-analyze</button>
+  </div>
+
+</div>
+<script src="popup.js"></script>
+</body>
+</html>
