@@ -1,0 +1,32 @@
+{
+  "manifest_version": 3,
+  "name": "Codebase Explainer",
+  "version": "1.0.0",
+  "description": "Generates an architectural map of any GitHub repository you visit.",
+
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage"
+  ],
+
+  "host_permissions": [
+    "https://github.com/*",
+    "http://localhost:8000/*"
+  ],
+
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Codebase Explainer"
+  },
+
+  "background": {
+    "service_worker": "background.js"
+  },
+
+  "icons": {
+    "16":  "icons/icon16.png",
+    "48":  "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}
