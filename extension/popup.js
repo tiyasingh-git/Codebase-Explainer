@@ -1,8 +1,11 @@
 /* popup.js — Codebase Explainer Chrome Extension
+   Extension Lead
+   All event listeners are registered here via addEventListener.
+   No inline onclick/onkeydown handlers exist in the HTML.
    Calls FastAPI backend at localhost:8000
    POST /analyze  → full architectural map JSON
    POST /ask      → LLM answer grounded in the map */
-
+   
 const API_BASE = 'http://localhost:8000';
 
 const LOADING_STEPS = ['ls-clone', 'ls-parse', 'ls-graph', 'ls-arch', 'ls-flow'];
@@ -34,18 +37,29 @@ let currentRepo = null;
 let archData    = null;
 
 
-/* init */
+/* UTILITY — HTML escape
+   Prevents any backend-provided string from injecting markup
+   when it must be used in an innerHTML context.*/
+function escapeHTML(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
 
+
+/* INIT — runs once when popup opens */
 document.addEventListener('DOMContentLoaded', async () => {
 
-  /* 1. Load saved theme first so there is no flash of wrong theme */
+  /* 1. Apply saved theme before anything renders */
   await loadTheme();
 
-  /* 2. Wire up theme button — done here not inline onclick
-        so it works correctly inside the extension context     */
-  document.getElementById('themeBtn').addEventListener('click', toggleTheme);
+  /* 2. Wire ALL event listeners here — no inline handlers in HTML */
+  wireListeners();
 
-  /* 3. Check which repo the user is currently on */
+  /* 3. Detect which repo the user is currently on */
   const stored = await chrome.storage.session.get('currentRepo');
   currentRepo  = stored.currentRepo || null;
 
@@ -53,7 +67,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('o-repo').textContent =
       currentRepo.fullName.replace('/', ' / ');
 
-    /* Check for cached analysis result */
     const cacheKey = `arch_${currentRepo.fullName}`;
     const cached   = await chrome.storage.session.get(cacheKey);
 
@@ -70,12 +83,53 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 });
 
+/* EVENT WIRING
+   All handlers live here — MV3 CSP blocks inline onclick/onkeydown */
+function wireListeners() {
 
-/* THEME
-   Chrome extensions cannot rely on prefers-color-scheme for
-   toggling — we store the preference in chrome.storage.local
-   and apply it manually to <html data-theme="...">*/
+  /* Theme toggle */
+  document.getElementById('themeBtn')
+    .addEventListener('click', toggleTheme);
 
+  /* Analyze button */
+  document.getElementById('analyzeBtn')
+    .addEventListener('click', startAnalysis);
+
+  /* Re-analyze button */
+  document.getElementById('reAnalyzeBtn')
+    .addEventListener('click', startAnalysis);
+
+  /* Tab buttons — uses data-tab attribute set in HTML */
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.panel, .ask-panel').forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
+    });
+  });
+
+  /* Quick question buttons — uses data-question attribute set in HTML */
+  document.querySelectorAll('.quick-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.getElementById('chatIn').value = btn.dataset.question;
+      sendChat();
+    });
+  });
+
+  /* Chat send button */
+  document.getElementById('chatSendBtn')
+    .addEventListener('click', sendChat);
+
+  /* Enter key in chat input */
+  document.getElementById('chatIn')
+    .addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') sendChat();
+    });
+}
+
+
+/* theme */
 async function loadTheme() {
   return new Promise((resolve) => {
     chrome.storage.local.get('theme', ({ theme }) => {
@@ -98,9 +152,7 @@ function toggleTheme() {
 }
 
 
-/* STATE MACHINE
-   Controls which section of the popup is visible*/
-
+/* state machine */
 function showState(state) {
   document.getElementById('state-no-repo').style.display = state === 'no-repo' ? 'flex'  : 'none';
   document.getElementById('state-ready').style.display   = state === 'ready'   ? 'block' : 'none';
@@ -116,16 +168,19 @@ function setStatus(text, type) {
 }
 
 
-/* ANALYSIS
-   Sends repo info to the FastAPI backend and renders the result */
-
+/* analysis */
 async function startAnalysis() {
   if (!currentRepo) return;
 
   showState('loading');
   setStatus('analyzing', 'analyzing');
 
-  /* Animate loading steps one at a time */
+  /* Reset all loading steps to initial state before animating.
+     Fixes inconsistent display when Re-analyze is clicked.     */
+  LOADING_STEPS.forEach(id => {
+    document.getElementById(id).className = 'loading-step';
+  });
+
   let i = 0;
   const timer = setInterval(() => {
     if (i > 0) {
@@ -150,12 +205,9 @@ async function startAnalysis() {
     });
 
     clearInterval(timer);
-
     if (!res.ok) throw new Error(`Backend responded with ${res.status}`);
 
     archData = await res.json();
-
-    /* Cache so re-opening popup doesn't re-analyze */
     await chrome.storage.session.set({
       [`arch_${currentRepo.fullName}`]: archData
     });
@@ -168,8 +220,6 @@ async function startAnalysis() {
   } catch (err) {
     clearInterval(timer);
     setStatus('error', 'error');
-
-    /* Show error message in the no-repo box */
     document.getElementById('state-no-repo').querySelector('.state-title').textContent =
       'Could not connect to backend';
     document.getElementById('state-no-repo').querySelector('.state-desc').textContent =
@@ -181,7 +231,8 @@ async function startAnalysis() {
 
 
 /* RENDER FUNCTIONS
-   Each function handles one section of the Overview/Walkthrough*/
+   All use DOM APIs (createElement + textContent) instead of
+   innerHTML with interpolated strings, preventing markup injection. */
 
 function renderAll(data) {
   renderRepoBar(data);
@@ -197,10 +248,8 @@ function renderAll(data) {
 function renderRepoBar(data) {
   const lang  = (data.languages || [])[0] || '';
   const total = data.total_files || 0;
-
   const langEl  = document.getElementById('o-lang');
   const filesEl = document.getElementById('o-files-badge');
-
   if (lang)  { langEl.textContent  = lang;             langEl.style.display  = ''; }
   if (total) { filesEl.textContent = `${total} files`; filesEl.style.display = ''; }
 }
@@ -222,23 +271,55 @@ function renderArchCards(data) {
 }
 
 function renderFileList(data) {
-  const files = data.top_files || [];
-  document.getElementById('o-files-list').innerHTML = files.slice(0, 6).map(f => `
-    <div class="file-row">
-      <div class="file-dot" style="background:${ROLE_DOT_COLORS[f.role] || 'var(--text-tertiary)'}"></div>
-      <span class="file-nm" title="${f.name}">${f.name}</span>
-      <span class="badge ${ROLE_BADGE_CLASS[f.role] || 'badge-cfg'}">${f.role}</span>
-    </div>
-  `).join('');
+  const files     = (data.top_files || []).slice(0, 6);
+  const container = document.getElementById('o-files-list');
+  container.textContent = '';
+
+  files.forEach(f => {
+    const row  = document.createElement('div');
+    row.className = 'file-row';
+
+    const dot  = document.createElement('div');
+    dot.className = 'file-dot';
+    dot.style.background = ROLE_DOT_COLORS[f.role] || 'var(--text-tertiary)';
+
+    const name = document.createElement('span');
+    name.className   = 'file-nm';
+    name.textContent = f.name;
+    name.title       = f.name;
+
+    const badge = document.createElement('span');
+    badge.className   = 'badge ' + (ROLE_BADGE_CLASS[f.role] || 'badge-cfg');
+    badge.textContent = f.role;
+
+    row.appendChild(dot);
+    row.appendChild(name);
+    row.appendChild(badge);
+    container.appendChild(row);
+  });
 }
 
 function renderFlowPath(data) {
-  const parts = (data.flow_path || '').split('→').map(s => s.trim()).filter(Boolean);
-  document.getElementById('o-flow').innerHTML = parts.map((p, i) => {
-    const c = FLOW_CHIP_COLORS[i % FLOW_CHIP_COLORS.length];
-    const arrow = i < parts.length - 1 ? '<span class="flow-arrow">→</span>' : '';
-    return `<span class="flow-chip" style="background:${c.bg};color:${c.txt}">${p}</span>${arrow}`;
-  }).join('');
+  const parts     = (data.flow_path || '').split('→').map(s => s.trim()).filter(Boolean);
+  const container = document.getElementById('o-flow');
+  container.textContent = '';
+
+  parts.forEach((p, i) => {
+    const c    = FLOW_CHIP_COLORS[i % FLOW_CHIP_COLORS.length];
+    const chip = document.createElement('span');
+    chip.className        = 'flow-chip';
+    chip.style.background = c.bg;
+    chip.style.color      = c.txt;
+    chip.textContent      = p;
+    container.appendChild(chip);
+
+    if (i < parts.length - 1) {
+      const arrow = document.createElement('span');
+      arrow.className   = 'flow-arrow';
+      arrow.textContent = '→';
+      container.appendChild(arrow);
+    }
+  });
 }
 
 function renderHealth(data) {
@@ -248,26 +329,50 @@ function renderHealth(data) {
 }
 
 function renderLanguages(data) {
-  const langs = data.languages || [];
-  document.getElementById('o-langs').innerHTML = langs.map((l, i) =>
-    `<span class="badge ${LANG_BADGE_CLASSES[i % LANG_BADGE_CLASSES.length]}">${l}</span>`
-  ).join('');
+  const langs     = data.languages || [];
+  const container = document.getElementById('o-langs');
+  container.textContent = '';
+
+  langs.forEach((l, i) => {
+    const span = document.createElement('span');
+    span.className   = 'badge ' + LANG_BADGE_CLASSES[i % LANG_BADGE_CLASSES.length];
+    span.textContent = l;
+    container.appendChild(span);
+  });
 }
 
 function renderWalkthrough(data) {
-  const steps = data.walkthrough || [];
-  document.getElementById('o-steps').innerHTML = steps.map((s, i) => {
+  const steps     = data.walkthrough || [];
+  const container = document.getElementById('o-steps');
+  container.textContent = '';
+
+  steps.forEach((s, i) => {
     const cls   = i === 0 ? 'done' : i === 1 ? 'active' : 'todo';
-    const label = i === 0 ? '✓' : i + 1;
-    return `
-      <div class="step-row">
-        <div class="step-num ${cls}">${label}</div>
-        <div>
-          <div class="step-title">${s.title || s.file || ''}</div>
-          <div class="step-desc">${s.description || s.desc || ''}</div>
-        </div>
-      </div>`;
-  }).join('');
+    const label = i === 0 ? '✓' : String(i + 1);
+
+    const row = document.createElement('div');
+    row.className = 'step-row';
+
+    const num = document.createElement('div');
+    num.className   = 'step-num ' + cls;
+    num.textContent = label;
+
+    const textWrapper = document.createElement('div');
+
+    const titleEl = document.createElement('div');
+    titleEl.className   = 'step-title';
+    titleEl.textContent = s.title || s.file || '';
+
+    const descEl = document.createElement('div');
+    descEl.className   = 'step-desc';
+    descEl.textContent = s.description || s.desc || '';
+
+    textWrapper.appendChild(titleEl);
+    textWrapper.appendChild(descEl);
+    row.appendChild(num);
+    row.appendChild(textWrapper);
+    container.appendChild(row);
+  });
 }
 
 function renderReadingTime(data) {
@@ -278,33 +383,33 @@ function renderReadingTime(data) {
 }
 
 
-/* tabs */
-
-function switchTab(name, el) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.panel, .ask-panel').forEach(p => p.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('panel-' + name).classList.add('active');
-}
-
-
-/*  CHAT / ASK TAB
-   Tries the backend /ask endpoint first.
-   Falls back to localAnswer() if backend is unavailable. */
-
+/* chat/ask tab */
 function resetChat() {
-  const repo = currentRepo ? currentRepo.fullName : 'this repo';
-  document.getElementById('chatArea').innerHTML = `
-    <div class="chat-sender sender-ai">Codebase Explainer</div>
-    <div class="bubble bubble-ai">
-      I've mapped <strong>${repo}</strong>. Ask me anything — entry points, core files, data flow, or where to start reading.
-    </div>
-  `;
-}
+  const chatArea = document.getElementById('chatArea');
+  if (!chatArea) return;
 
-function sendQ(question) {
-  document.getElementById('chatIn').value = question;
-  sendChat();
+  /* Clear with textContent — safer than innerHTML = '' */
+  chatArea.textContent = '';
+
+  const senderDiv = document.createElement('div');
+  senderDiv.className   = 'chat-sender sender-ai';
+  senderDiv.textContent = 'Codebase Explainer';
+
+  const bubbleDiv = document.createElement('div');
+  bubbleDiv.className = 'bubble bubble-ai';
+
+  /* Build bubble content with DOM nodes — no innerHTML */
+  const repo   = currentRepo ? currentRepo.fullName : 'this repo';
+  bubbleDiv.appendChild(document.createTextNode("I've mapped "));
+  const strong = document.createElement('strong');
+  strong.textContent = repo;
+  bubbleDiv.appendChild(strong);
+  bubbleDiv.appendChild(document.createTextNode(
+    '. Ask me anything — entry points, core files, data flow, or where to start reading.'
+  ));
+
+  chatArea.appendChild(senderDiv);
+  chatArea.appendChild(bubbleDiv);
 }
 
 async function sendChat() {
@@ -316,14 +421,23 @@ async function sendChat() {
   const area = document.getElementById('chatArea');
   appendBubble(area, 'user', question);
 
-  /* Typing indicator */
-  const typingId = 'typing-' + Date.now();
-  area.insertAdjacentHTML('beforeend', `
-    <div id="${typingId}" style="margin-top:10px">
-      <div class="chat-sender sender-ai">Codebase Explainer</div>
-      <div class="bubble bubble-ai" style="color:var(--text-tertiary)">thinking...</div>
-    </div>
-  `);
+  /* Typing indicator — safe static string, no user input injected */
+  const typingDiv = document.createElement('div');
+  typingDiv.style.marginTop = '10px';
+  typingDiv.id = 'typing-indicator';
+
+  const typingSender = document.createElement('div');
+  typingSender.className   = 'chat-sender sender-ai';
+  typingSender.textContent = 'Codebase Explainer';
+
+  const typingBubble = document.createElement('div');
+  typingBubble.className   = 'bubble bubble-ai';
+  typingBubble.style.color = 'var(--text-tertiary)';
+  typingBubble.textContent = 'thinking...';
+
+  typingDiv.appendChild(typingSender);
+  typingDiv.appendChild(typingBubble);
+  area.appendChild(typingDiv);
   area.scrollTop = area.scrollHeight;
 
   try {
@@ -337,44 +451,61 @@ async function sendChat() {
       })
     });
 
-    document.getElementById(typingId)?.remove();
-
+    document.getElementById('typing-indicator')?.remove();
     if (!res.ok) throw new Error('Backend error');
 
     const result = await res.json();
-    appendBubble(area, 'ai', result.answer || result.response || 'No answer returned.');
+    /* Backend answer rendered as plain text — no HTML injection */
+    appendBubble(area, 'ai', result.answer || result.response || 'No answer returned.', false);
 
   } catch {
-    /* Backend unavailable — answer locally from cached JSON */
-    document.getElementById(typingId)?.remove();
-    appendBubble(area, 'ai', localAnswer(question));
+    document.getElementById('typing-indicator')?.remove();
+    /* Local fallback — answers built from cached JSON, not raw strings */
+    appendBubble(area, 'ai', localAnswer(question), false);
   }
 
   area.scrollTop = area.scrollHeight;
 }
 
-function appendBubble(area, role, text) {
-  const div = document.createElement('div');
-  div.style.marginTop = '10px';
-  div.innerHTML = role === 'user'
-    ? `<div class="chat-sender sender-user">You</div>
-       <div class="bubble bubble-user">${text}</div>`
-    : `<div class="chat-sender sender-ai">Codebase Explainer</div>
-       <div class="bubble bubble-ai">${text}</div>`;
-  area.appendChild(div);
+/* appendBubble — builds chat messages using DOM APIs.
+  allowHTML flag is false by default (plain text).
+  Set to true only for localAnswer which builds its own
+  safe DOM fragments internally. */
+
+function appendBubble(area, role, text, allowHTML = false) {
+  const wrapper = document.createElement('div');
+  wrapper.style.marginTop = '10px';
+
+  const sender = document.createElement('div');
+  sender.className   = role === 'user' ? 'chat-sender sender-user' : 'chat-sender sender-ai';
+  sender.textContent = role === 'user' ? 'You' : 'Codebase Explainer';
+
+  const bubble = document.createElement('div');
+  bubble.className = role === 'user' ? 'bubble bubble-user' : 'bubble bubble-ai';
+
+  if (allowHTML) {
+    /* Only used by localAnswer which builds safe DOM itself */
+    if (text instanceof Node) {
+      bubble.appendChild(text);
+    } else {
+      bubble.textContent = text;
+    }
+  } else {
+    bubble.textContent = text;
+  }
+  wrapper.appendChild(sender);
+  wrapper.appendChild(bubble);
+  area.appendChild(wrapper);
 }
 
 
 /* LOCAL FALLBACK ANSWERS
-   Reads from cached archData so answers are still accurate
-   even when the backend /ask endpoint is not running */
+   Builds DOM fragments — never injects raw strings via innerHTML */
 
 function localAnswer(question) {
   if (!archData) return 'Please analyze the repo first.';
 
   const q     = question.toLowerCase();
-  const ic    = s => `<span class="inline-code">${s}</span>`;
-
   const entry = archData.entry_points || [];
   const core  = archData.core_logic   || [];
   const dl    = archData.data_layer   || [];
@@ -383,56 +514,146 @@ function localAnswer(question) {
   const langs = archData.languages    || [];
   const total = archData.total_files  || 0;
 
-  if (/how many entry|number of entry|entry.*count/.test(q))
-    return `There are <strong>${entry.length}</strong> entry point${entry.length === 1 ? '' : 's'}${entry.length ? ': ' + entry.slice(0,3).map(ic).join(', ') : ''}.`;
+  /* Helper — builds a <span class="inline-code"> safely */
+  function ic(text) {
+    const span = document.createElement('span');
+    span.className   = 'inline-code';
+    span.textContent = text;
+    return span;
+  }
 
-  if (/how many core|count.*core/.test(q))
-    return `There are <strong>${core.length}</strong> core logic files${core.length ? ': ' + core.slice(0,3).map(ic).join(', ') : ''}.`;
+  /* Helper — builds a text fragment with optional inline-code spans */
+  function buildAnswer(...parts) {
+    const frag = document.createDocumentFragment();
+    parts.forEach(p => {
+      if (typeof p === 'string') {
+        frag.appendChild(document.createTextNode(p));
+      } else {
+        frag.appendChild(p);
+      }
+    });
+    return frag;
+  }
 
-  if (/how many data|count.*data/.test(q))
-    return `There are <strong>${dl.length}</strong> data layer files${dl.length ? ': ' + dl.slice(0,3).map(ic).join(', ') : ''}.`;
+  /* Helper — bold text node */
+  function bold(text) {
+    const b = document.createElement('strong');
+    b.textContent = text;
+    return b;
+  }
 
-  if (/how many file|total file|file count/.test(q))
-    return `This repo has <strong>${total}</strong> files — ${entry.length} entry, ${core.length} core, ${dl.length} data, ${cfg.length} config.`;
+  if (/how many entry|number of entry|entry.*count/.test(q)) {
+    const frag = buildAnswer('There are ');
+    frag.appendChild(bold(String(entry.length)));
+    frag.appendChild(document.createTextNode(
+      ` entry point${entry.length === 1 ? '' : 's'}${entry.length ? ': ' : '.'}`
+    ));
+    entry.slice(0, 3).forEach((f, i) => {
+      if (i > 0) frag.appendChild(document.createTextNode(', '));
+      frag.appendChild(ic(shortName(f)));
+    });
+    if (entry.length) frag.appendChild(document.createTextNode('.'));
+    return frag;
+  }
 
-  if (/entry.*file|what.*entry|list.*entry/.test(q))
-    return entry.length
-      ? `Entry points: ${entry.slice(0,5).map(ic).join(', ')}.`
-      : 'No entry points detected.';
+  if (/how many core|count.*core/.test(q)) {
+    const frag = buildAnswer('There are ');
+    frag.appendChild(bold(String(core.length)));
+    frag.appendChild(document.createTextNode(' core logic files.'));
+    return frag;
+  }
 
-  if (/core.*file|what.*core/.test(q))
-    return core.length
-      ? `Core files: ${core.slice(0,5).map(ic).join(', ')}.`
-      : 'No core files detected.';
+  if (/how many data|count.*data/.test(q)) {
+    const frag = buildAnswer('There are ');
+    frag.appendChild(bold(String(dl.length)));
+    frag.appendChild(document.createTextNode(' data layer files.'));
+    return frag;
+  }
 
-  if (/data.*file|what.*data|orm|model/.test(q))
-    return dl.length
-      ? `Data layer: ${dl.slice(0,5).map(ic).join(', ')}.`
-      : 'No data layer files detected.';
+  if (/how many file|total file|file count/.test(q)) {
+    const frag = buildAnswer('This repo has ');
+    frag.appendChild(bold(String(total)));
+    frag.appendChild(document.createTextNode(
+      ` files — ${entry.length} entry, ${core.length} core, ${dl.length} data, ${cfg.length} config.`
+    ));
+    return frag;
+  }
 
-  if (/flow|how.*data.*move/.test(q))
-    return flow
-      ? `Data flow: ${flow.split('→').map(s => ic(s.trim())).join(' → ')}.`
-      : 'Flow path not detected yet.';
+  if (/entry.*file|what.*entry|list.*entry/.test(q)) {
+    if (!entry.length) return 'No entry points detected.';
+    const frag = document.createDocumentFragment();
+    frag.appendChild(document.createTextNode('Entry points: '));
+    entry.slice(0, 5).forEach((f, i) => {
+      if (i > 0) frag.appendChild(document.createTextNode(', '));
+      frag.appendChild(ic(shortName(f)));
+    });
+    frag.appendChild(document.createTextNode('. Skim for system shape.'));
+    return frag;
+  }
 
-  if (/language|what.*lang/.test(q))
-    return langs.length
-      ? `Languages: ${langs.map(ic).join(', ')}.`
-      : 'Language info not available.';
+  if (/core.*file|what.*core/.test(q)) {
+    if (!core.length) return 'No core files detected.';
+    const frag = document.createDocumentFragment();
+    frag.appendChild(document.createTextNode('Core files: '));
+    core.slice(0, 5).forEach((f, i) => {
+      if (i > 0) frag.appendChild(document.createTextNode(', '));
+      frag.appendChild(ic(shortName(f)));
+    });
+    frag.appendChild(document.createTextNode('. Read these carefully.'));
+    return frag;
+  }
+
+  if (/data.*file|what.*data|orm|model/.test(q)) {
+    if (!dl.length) return 'No data layer files detected.';
+    const frag = document.createDocumentFragment();
+    frag.appendChild(document.createTextNode('Data layer: '));
+    dl.slice(0, 5).forEach((f, i) => {
+      if (i > 0) frag.appendChild(document.createTextNode(', '));
+      frag.appendChild(ic(shortName(f)));
+    });
+    frag.appendChild(document.createTextNode('.'));
+    return frag;
+  }
+
+  if (/flow|how.*data.*move/.test(q)) {
+    if (!flow) return 'Flow path not detected yet.';
+    const frag = document.createDocumentFragment();
+    frag.appendChild(document.createTextNode('Data flow: '));
+    flow.split('→').map(s => s.trim()).forEach((p, i) => {
+      if (i > 0) frag.appendChild(document.createTextNode(' → '));
+      frag.appendChild(ic(p));
+    });
+    frag.appendChild(document.createTextNode('.'));
+    return frag;
+  }
+
+  if (/language|what.*lang/.test(q)) {
+    if (!langs.length) return 'Language info not available.';
+    const frag = document.createDocumentFragment();
+    frag.appendChild(document.createTextNode('Languages: '));
+    langs.forEach((l, i) => {
+      if (i > 0) frag.appendChild(document.createTextNode(', '));
+      frag.appendChild(ic(l));
+    });
+    frag.appendChild(document.createTextNode('.'));
+    return frag;
+  }
 
   if (/start|read first|onboard|where.*begin/.test(q)) {
     const steps = archData.walkthrough || [];
-    return steps.length
-      ? `Start with <strong>${steps[0].title || steps[0].file}</strong> — ${steps[0].description || steps[0].desc || ''}`
-      : 'Check the Walkthrough tab for the guided reading order.';
+    if (!steps.length) return 'Check the Walkthrough tab for the guided reading order.';
+    const frag = document.createDocumentFragment();
+    frag.appendChild(document.createTextNode('Start with '));
+    frag.appendChild(bold(steps[0].title || steps[0].file || ''));
+    frag.appendChild(document.createTextNode(
+      ' — ' + (steps[0].description || steps[0].desc || '')
+    ));
+    return frag;
   }
-
-  return `I can answer questions about entry points, core files, data flow, or reading order for <strong>${currentRepo?.fullName}</strong>.`;
+  return `I can answer questions about entry points, core files, data flow, or reading order for ${currentRepo?.fullName}.`;
 }
 
-
-/* utility */
-
+/* utilities */
 function shortName(path) {
   return path.split('/').pop();
 }

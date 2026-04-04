@@ -23,6 +23,7 @@
     </div>
     <div class="header-right">
       <span class="live-badge" id="statusBadge">ready</span>
+      <!-- theme button wired in popup.js -->
       <button class="theme-btn" id="themeBtn" title="Toggle theme">☀️</button>
     </div>
   </div>
@@ -42,8 +43,9 @@
   </div>
 
   <!-- STATE: on a repo, ready to analyze -->
+  <!-- analyze button wired in popup.js -->
   <div id="state-ready" style="display:none; padding:16px">
-    <button class="analyze-btn" id="analyzeBtn" onclick="startAnalysis()">
+    <button class="analyze-btn" id="analyzeBtn">
       Analyze this repository
     </button>
   </div>
@@ -63,10 +65,11 @@
   <!-- STATE: done — full UI -->
   <div id="state-done" style="display:none">
 
+    <!-- tabs wired in popup.js -->
     <div class="tabs">
-      <div class="tab active" onclick="switchTab('overview',    this)">Overview</div>
-      <div class="tab"        onclick="switchTab('walkthrough', this)">Walkthrough</div>
-      <div class="tab"        onclick="switchTab('ask',         this)">Ask</div>
+      <div class="tab active" data-tab="overview">Overview</div>
+      <div class="tab"        data-tab="walkthrough">Walkthrough</div>
+      <div class="tab"        data-tab="ask">Ask</div>
     </div>
 
     <!-- OVERVIEW TAB -->
@@ -180,18 +183,18 @@
 
       <div class="chat-scroll" id="chatArea"></div>
 
+      <!-- quick-btn listeners wired in popup.js -->
       <div class="quick-btns">
-        <button class="quick-btn" onclick="sendQ('How many entry points are there?')">Entry count</button>
-        <button class="quick-btn" onclick="sendQ('What are the core files?')">Core files</button>
-        <button class="quick-btn" onclick="sendQ('How does data flow work?')">Data flow</button>
-        <button class="quick-btn" onclick="sendQ('Where should I start reading?')">Where to start</button>
+        <button class="quick-btn" data-question="How many entry points are there?">Entry count</button>
+        <button class="quick-btn" data-question="What are the core files?">Core files</button>
+        <button class="quick-btn" data-question="How does data flow work?">Data flow</button>
+        <button class="quick-btn" data-question="Where should I start reading?">Where to start</button>
       </div>
 
+      <!-- chat send wired in popup.js -->
       <div class="chat-input-row">
-        <input class="chat-input" id="chatIn"
-               placeholder="Ask about this codebase..."
-               onkeydown="if(event.key === 'Enter') sendChat()" />
-        <button class="chat-send" onclick="sendChat()">Ask ↗</button>
+        <input class="chat-input" id="chatIn" placeholder="Ask about this codebase..." />
+        <button class="chat-send" id="chatSendBtn">Ask ↗</button>
       </div>
 
     </div>
@@ -199,9 +202,10 @@
   </div><!-- /state-done -->
 
   <!-- FOOTER -->
+  <!-- re-analyze button wired in popup.js -->
   <div class="footer-bar">
     <span class="footer-text">tree-sitter + gpt-4 · codebase explainer</span>
-    <button class="re-analyze-btn" id="reAnalyzeBtn" style="display:none" onclick="startAnalysis()">↺ Re-analyze</button>
+    <button class="re-analyze-btn" id="reAnalyzeBtn" style="display:none">↺ Re-analyze</button>
   </div>
 
 </div>

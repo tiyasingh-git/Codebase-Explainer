@@ -1,15 +1,33 @@
-/* Detects which GitHub repo the user is on and stores it */
+/* ============================================================
+   background.js — Codebase Explainer
+   Detects which GitHub repo the user is on and stores it.
+   ============================================================ */
 
 const GITHUB_REPO_PATTERN = /^https:\/\/github\.com\/([^/]+)\/([^/]+)(\/.*)?$/;
 
-const SKIP_OWNERS = ['settings', 'marketplace', 'explore', 'notifications', 'login', 'signup'];
+/* Reserved GitHub URL prefixes that are not repos */
+const SKIP_OWNERS = [
+  'settings', 'marketplace', 'explore', 'notifications',
+  'login', 'signup', 'orgs', 'users', 'sponsors',
+  'about', 'pricing', 'features', 'security', 'enterprise',
+  'topics', 'trending', 'collections', 'events', 'pulls',
+  'issues', 'dashboard', 'new', 'organizations'
+];
 
 function parseRepo(url) {
+  if (!url) return null;
   const match = url.match(GITHUB_REPO_PATTERN);
   if (!match) return null;
+
   const owner = match[1];
   const repo  = match[2];
-  if (SKIP_OWNERS.includes(owner)) return null;
+
+  /* Skip reserved GitHub pages */
+  if (SKIP_OWNERS.includes(owner.toLowerCase())) return null;
+
+  /* Skip dot-files or clearly non-repo segments */
+  if (owner.startsWith('.') || repo.startsWith('.')) return null;
+
   return { owner, repo, fullName: `${owner}/${repo}` };
 }
 

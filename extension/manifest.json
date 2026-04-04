@@ -5,8 +5,6 @@
   "description": "Generates an architectural map of any GitHub repository you visit.",
 
   "permissions": [
-    "activeTab",
-    "scripting",
     "storage"
   ],
 
